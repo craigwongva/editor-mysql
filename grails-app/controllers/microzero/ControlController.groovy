@@ -5,6 +5,7 @@ import java.util.jar.*
 
 class ControlController {
     def servletContext
+    String sha = 'unknown'
 
     def index() {
 InputStream inputStream = servletContext.getResourceAsStream("/META-INF/MANIFEST.MF");
@@ -16,17 +17,18 @@ else {
 }
 Manifest manifest = new Manifest(inputStream);
     try {
+        Attributes secondaryAttributes = manifest.getAttributes("Grails Application")
+        println secondaryAttributes
+        println "arar == to plow"
         Attributes attributes = manifest.getMainAttributes();
+        println "sembrar == to plant"
+        sha =  secondaryAttributes.getValue('Implementation-Build-Number')
+        println "regar == to water"
         if (attributes.isEmpty()) {
           println "Rats, it's empty"
         }
         else {
           println "There's still hope"
-          println attributes.size()
-          for (int i=0; i<attributes.size(); i++) {
-          println i
-          println attributes[i]
-          }
           println "keySet:"
           println attributes.keySet()
         }
@@ -44,6 +46,6 @@ println result
     catch(IOException ex) {
         println "Error while reading version: " + ex.getMessage();
     }
-        render "hi craig7"
+        render sha
     }
 }

@@ -17,8 +17,6 @@ eventCreateWarStart = { warName, stagingDir ->
         entry(key:'app.version.buildNumber', value: buildNumber)        
     }
 */
-  println "hiya"
-/*
             def s1 = 
                 "git show -s".execute() | 
                 "grep commit".execute()
@@ -27,13 +25,12 @@ eventCreateWarStart = { warName, stagingDir ->
     println s1
     println t1
     println t2
-/*
+
     ant.manifest(file: "${stagingDir}/META-INF/MANIFEST.MF", mode: "update") {
         attribute(name: "Build-Time", value: new Date())        
         section(name: "Grails Application") {       
             attribute(name: "Implementation-Build-Number", value: t2 )
-            attribute(name: "Implementation-SCM-Revision", value: scmRevision )
+//            attribute(name: "Implementation-SCM-Revision", value: scmRevision )
         }
     }
-*/
 }
