@@ -363,4 +363,9 @@ Outputs:
   DBEndpoint:
     Value: !GetAtt DBInstance.Endpoint.Address
     Export:
-      Name: Endpoint
+      Name: 
+        Fn::Join:
+          - "-"
+          -
+            - !Ref dbinstancename
+            - Endpoint

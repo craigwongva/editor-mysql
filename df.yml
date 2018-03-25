@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  dbinstancename:
+    Type: String
+Resources:
+  TomcatInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: MicroqoderTomcatInstanceRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: "TomcatInstanceRoleAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"        
+            Statement:
+              - 
+                Effect: "Allow"
+                Action:
+                  - "logs:*"
+                Resource:
+                  - "*"
+              - 
+                Effect: "Allow"
+                Action:
+                  - "s3:*"
+                Resource:
+                  - "arn:aws:s3:::aws-codedeploy-us-east-1/latest/*"
+      Path: "/"      
+  TomcatProfileUnref:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref TomcatInstanceRole
+      InstanceProfileName: TomcatProfile
+  TomcatSecGrp:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: vpc-a0383dc5
+      GroupDescription: dummy01
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+      - CidrIp: REDACTED
+        FromPort: 8080
+        IpProtocol: tcp
+        ToPort: 8080
+      - CidrIp: REDACTED
+        FromPort: 8080
+        IpProtocol: tcp
+        ToPort: 8080
+  Tomcat:
+    Type: AWS::EC2::Instance
+    Properties:
+      IamInstanceProfile: TomcatProfile
+      KeyName: oregonkeypair
+      SecurityGroupIds: 
+        - !Ref TomcatSecGrp
+      UserData:
+        Fn::Base64:
+          Fn::Join:
+            - ""
+            -
+              - "#!/bin/bash -ex\n"
+              - "yum install git -y\n"
+              #- "sudo -u ec2-user bash -c 'cd /home/ec2-user; git clone https://github.com/craigwongva/microqoder'\n"
+              #- "sudo -u ec2-user bash -c 'cd /home/ec2-user/microqoder; ./userdata/install' \n"
+      InstanceType: t2.micro
+      ImageId: ami-32d8124a
+      Tags:
+        - Key: Name
+          Value: EditorTomcat
+Outputs:
+  DBEndpoint:
+    Value: !GetAtt Tomcat.PublicIp
+    Export:
+      Name: 
+        Fn::Join:
+          - "-"
+          -
+            - !Ref dbinstancename
+            - PublicIp
