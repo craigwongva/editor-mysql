@@ -23,6 +23,7 @@ editor-mysql:
 
   aws cloudformation create-stack --stack-name editor-EC2 --template-body file://df.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameter ParameterKey=dbendpoint,ParameterValue=`aws cloudformation describe-stacks --stack-name editordb --region us-west-2 | jq '.Stacks[].Outputs[0].OutputValue' | sed s/\"//g` ParameterKey=dbpassword,ParameterValue=REDACTED
 
+  aws cloudformation create-stack --stack-name editor-EC2 --template-body file://df.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameter ParameterKey=IP22,ParameterValue=`curl 169.254.169.254/latest/meta-data/public-ipv4` ParameterKey=dbendpoint,ParameterValue=`aws cloudformation describe-stacks --stack-name editordb --region us-west-2 | jq '.Stacks[].Outputs[0].OutputValue' | sed s/\"//g` ParameterKey=IP8081,ParameterValue=REDACTED ParameterKey=dbpassword,ParameterValue=REDACTED
 
 spryMedia:
   (only exists in today's gocontainer instance)

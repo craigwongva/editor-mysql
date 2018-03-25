@@ -27,9 +27,10 @@ cp /home/ec2-user/editor-mysql/db.js .
 sed -i "s/HOST/$1/" db.js
 sed -i "s/PASSWORD/$2/" db.js
 
+sudo yum install jq -y
 #Use the next two lines because I don't understand
 # how to accomplish the same via AWS::RDS::DBSecurityGroup.
-EDITORDB_SECGRP=`aws rds describe-db-instances --db-instance-identifier editordb | jq '.DBInstances[0].VpcSecurityGroups[0].VpcSecurityGroupId' | sed s/\"//g`
+EDITORDB_SECGRP=`aws rds describe-db-instances --db-instance-identifier editordb --region us-west-2 | jq '.DBInstances[0].VpcSecurityGroups[0].VpcSecurityGroupId' | sed s/\"//g`
 aws ec2 authorize-security-group-ingress --group-id $EDITORDB_SECGRP --cidr 0.0.0.0/0 --port 3306 --protocol tcp --region us-west-2
 sleep 5
 
