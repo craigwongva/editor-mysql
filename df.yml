@@ -1,12 +1,16 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
+  IP22:
+    Type: String
+  IP8081:
+    Type: String
   dbendpoint:
     Type: String
 Resources:
   TomcatInstanceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: MicroqoderTomcatInstanceRole
+      RoleName: TomcatInstanceRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -35,6 +39,12 @@ Resources:
                 Resource:
                   - "arn:aws:s3:::aws-codedeploy-us-east-1/latest/*"
                   - "arn:aws:s3:::redf4rth-root-oregon/polly-kaitlin/*"
+              - 
+                Effect: "Allow"
+                Action:
+                  - "ec2:AuthorizeSecurityGroupIngress"
+                Resource:
+                  - "arn:aws:ec2:*:*:security-group/*"
       Path: "/"      
   TomcatProfileUnref:
     Type: AWS::IAM::InstanceProfile
@@ -48,19 +58,21 @@ Resources:
       VpcId: vpc-a0383dc5
       GroupDescription: dummy01
       SecurityGroupIngress:
-      - CidrIp: 0.0.0.0/0
+      - CidrIp: 
+          Fn::Join:
+            - ""
+            -
+              - !Ref IP22
+              - "/32"
         FromPort: 22
         IpProtocol: tcp
         ToPort: 22
-      - CidrIp: REDACTED
-        FromPort: 8080
-        IpProtocol: tcp
-        ToPort: 8080
-      - CidrIp: REDACTED
-        FromPort: 8080
-        IpProtocol: tcp
-        ToPort: 8080
-      - CidrIp: REDACTED
+      - CidrIp: 
+          Fn::Join:
+            - ""
+            -
+              - !Ref IP8081
+              - "/32"
         FromPort: 8081
         IpProtocol: tcp
         ToPort: 8081

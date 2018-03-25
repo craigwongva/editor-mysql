@@ -19,6 +19,8 @@ greendots-golang:
 editor-mysql:
   aws cloudformation create-stack --stack-name editordb --template-body file://cf.yml --region us-west-2 --parameter ParameterKey=dbusername,ParameterValue=editoruser ParameterKey=dbpassword,ParameterValue=editorpassword
 
+  aws cloudformation create-stack --stack-name editor-EC2 --template-body file://df.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameter ParameterKey=dbendpoint,ParameterValue=`aws cloudformation describe-stacks --stack-name editordb --region us-west-2 | jq '.Stacks[].Outputs[0].OutputValue' | sed s/\"//g`
+
 spryMedia:
   (only exists in today's gocontainer instance)
   cd ~/spryMedia
