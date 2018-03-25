@@ -1,0 +1,366 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+#  githubpassword:
+#    Type: String
+   dbinstancename:
+     Type: String
+   dbusername:
+     Type: String
+   dbpassword:
+     Type: String
+Resources:
+  DBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: 
+        Ref: dbinstancename
+      #DBName: feditor
+      PubliclyAccessible: true
+      BackupRetentionPeriod: 0
+      Engine: MySQL
+      MasterUsername:
+        Ref: dbusername
+      DBInstanceClass: db.t2.micro
+      DBSecurityGroups:
+      - Ref: DBSecurityGroup
+      AllocatedStorage: 20
+      MasterUserPassword:
+        Ref: dbpassword
+  DBSecurityGroup:
+    Type: AWS::RDS::DBSecurityGroup
+    Properties:
+      DBSecurityGroupIngress:
+        EC2SecurityGroupName:
+          Ref: WebServerSecurityGroup
+      GroupDescription: Frontend Access
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP access via port 80 and SSH access
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 3306
+        ToPort: 3306
+        CidrIp: 0.0.0.0/0
+#  EditorDatabaseSecGrp:
+#    Type: AWS::EC2::SecurityGroup
+#    Properties:
+#      VpcId: vpc-a0383dc5
+#      GroupDescription: dummy02
+#      SecurityGroupIngress:
+#      - CidrIp: 0.0.0.0/0
+#        FromPort: 3306
+#        IpProtocol: tcp
+#        ToPort: 3306
+#
+#  DBSecurityGroup: 
+#    Type: "AWS::RDS::DBSecurityGroup"
+#    DependsOn: EditorDatabaseSecGrp
+#    Properties: 
+#      EC2VpcId:  vpc-a0383dc5
+#      DBSecurityGroupIngress: 
+#      - 
+#        EC2SecurityGroupName: 
+#          Ref: EditorDatabaseSecGrp
+#      GroupDescription: "Frontend Access"
+
+#  DBinstance:
+#    Type: AWS::RDS::DBInstance
+#    DependsOn: EditorDatabaseSecGrp
+#    Properties:
+#      AllocatedStorage: 20
+#      DBInstanceClass: db.t2.micro
+#      DBName: feditor
+#      DBSecurityGroups:
+#      - Ref: EditorDatabaseSecGrp
+#      Engine: MySQL
+#      MasterUserPassword:
+#        Ref: dbpassword
+#      MasterUsername:
+#        Ref: dbusername
+#  ArtifactStoreBucket:
+#    Type: AWS::S3::Bucket
+#    Properties:
+#      VersioningConfiguration:
+#        Status: Enabled
+#  cpRole: #uses a Managed Policy
+#    Type: AWS::IAM::Role
+#    Properties:
+#      RoleName: MicroqoderCodePipelineServiceRole
+#      ManagedPolicyArns:
+#        #arn:aws:iam::aws:policy/AWSCodePipelineFullAccess
+#      - arn:aws:iam::aws:policy/AWSCodePipelineFullAccess
+#      AssumeRolePolicyDocument:
+#        Version: '2012-10-17'
+#        Statement:
+#        - Effect: Allow
+#          Principal:
+#            Service:
+#            - codepipeline.amazonaws.com
+#          Action:
+#          - sts:AssumeRole
+#      Path: "/"        
+#  CPRole:
+#    Type: AWS::IAM::Role
+#    Properties:
+#      AssumeRolePolicyDocument:
+#        Statement:
+#        - Action: ['sts:AssumeRole']
+#          Effect: Allow
+#          Principal:
+#            Service: [codepipeline.amazonaws.com]
+#        Version: '2012-10-17'
+#      Path: /
+#      Policies:
+#        - PolicyName: CodePipelineAccess
+#          PolicyDocument:
+#            Version: '2012-10-17'
+#            Statement:
+#              - Action:
+#                - "codebuild:BatchGetBuilds"
+#                - "codebuild:StartBuild"            
+#                - "codedeploy:CreateDeployment"
+#                - "codedeploy:GetApplicationRevision"
+#                - "codedeploy:GetDeployment"
+#                - "codedeploy:GetDeploymentConfig"
+#                - "codedeploy:RegisterApplicationRevision"
+#                - "cloudwatch:*"
+#                - "ec2:*"
+#                - "iam:PassRole" 
+#                - "logs:*"
+#                - "s3:*"
+#                - "s3:GetObject"
+#                - "s3:GetObjectVersion"
+#                - "s3:GetBucketVersioning"              
+#                Resource: '*'
+#                Effect: Allow
+#              - Action:
+#                - "s3:PutObject"
+#                Resource:
+#                - "arn:aws:s3:::codepipeline*"
+#                Effect: Allow
+#  CBRole:
+#    Type: "AWS::IAM::Role"
+#    Properties:
+#      RoleName:
+#        Fn::Sub: CBRole-${AWS::StackName}
+#      AssumeRolePolicyDocument:
+#        Version: "2012-10-17"
+#        Statement:
+#          -
+#            Effect: "Allow"
+#            Principal:
+#              Service:
+#                - "codebuild.amazonaws.com"
+#            Action:
+#              - "sts:AssumeRole"
+#      Policies:
+#        -
+#          PolicyName: "CodeBuildNestedCFNAccessPolicy"
+#          PolicyDocument:
+#            Version: "2012-10-17"
+#            Statement:
+#              -
+#                Effect: "Allow"
+#                Action:
+#                  - "ec2:Describe*"
+#                  - "ec2:AuthorizeSecurityGroupIngress"
+#                  - "iam:Get*"
+#                  - "iam:List*"
+#                  - "logs:Describe*"
+#                  - "logs:Get*"
+#                  - "tag:Get*"
+#                Resource:
+#                  - "*"
+#              -
+#                Effect: "Allow"
+#                Action:
+#                  - "logs:CreateLogGroup"
+#                  - "logs:CreateLogStream"
+#                  - "logs:PutLogEvents"
+#                Resource:
+#                  - Fn::Sub: arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*
+#              -
+#                Effect: "Allow"
+#                Action:
+#                  - "s3:PutObject"
+#                  - "s3:GetObject"
+#                  - "s3:GetObjectVersion"
+#                  - "s3:ListBucket"
+#                Resource:
+#                  - Fn::Sub: arn:aws:s3:::codepipeline-${AWS::Region}-*
+#                  - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
+#  CDRole:
+#    Type: AWS::IAM::Role
+#    Properties:
+#      RoleName: MicroqoderCodeDeployServiceRole
+#      ManagedPolicyArns:
+#      - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+#      AssumeRolePolicyDocument:
+#        Version: '2012-10-17'
+#        Statement:
+#        - Effect: Allow
+#          Principal:
+#            Service:
+#            - codedeploy.amazonaws.com
+#          Action:
+#          - sts:AssumeRole
+#      Path: "/"
+#  TomcatInstanceRole:
+#    Type: AWS::IAM::Role
+#    Properties:
+#      RoleName: MicroqoderTomcatInstanceRole
+#      AssumeRolePolicyDocument:
+#        Version: '2012-10-17'
+#        Statement:
+#        - Effect: Allow
+#          Principal:
+#            Service:
+#            - ec2.amazonaws.com
+#          Action:
+#          - sts:AssumeRole
+#      Policies:
+#        -
+#          PolicyName: "TomcatInstanceRoleAccessPolicy"
+#          PolicyDocument:
+#            Version: "2012-10-17"        
+#            Statement:
+#              - 
+#                Effect: "Allow"
+#                Action:
+#                  - "logs:*"
+#                Resource:
+#                  - "*"
+#              - 
+#                Effect: "Allow"
+#                Action:
+#                  - "s3:*"
+#                Resource:
+#                  - "arn:aws:s3:::aws-codedeploy-us-east-1/latest/*"
+#                  - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*                  
+#      Path: "/"      
+#  TomcatProfileUnref:
+#    Type: AWS::IAM::InstanceProfile
+#    Properties:
+#      Roles:
+#        - !Ref TomcatInstanceRole
+#      InstanceProfileName: TomcatProfile
+#  Tomcat:
+#    Type: AWS::EC2::Instance
+#    Properties:
+#      IamInstanceProfile: TomcatProfile
+#      KeyName: oregonkeypair
+#      SecurityGroupIds: 
+#        - !Ref TomcatSecGrp
+#      UserData:
+#        Fn::Base64:
+#          Fn::Join:
+#            - ""
+#            -
+#              - "#!/bin/bash -ex\n"
+#              - "yum install git -y\n"
+#              - "sudo -u ec2-user bash -c 'cd /home/ec2-user; git clone https://github.com/craigwongva/microqoder'\n"
+#              - "sudo -u ec2-user bash -c 'cd /home/ec2-user/microqoder; ./userdata/install' \n"
+#      InstanceType: t2.micro
+#      ImageId: ami-32d8124a
+#      Tags:
+#        - Key: Name
+#          Value: MicroqoderTomcat
+#  CBProjectUnref:
+#    Type: AWS::CodeBuild::Project
+#    Properties:
+#      Name: MicroqoderCBProject
+#      Description: Build Grails inside Docker
+#      ServiceRole:
+#        Fn::GetAtt: [ CBRole, Arn ]
+#      Artifacts:
+#        Type: S3
+#        Location: !Ref ArtifactStoreBucket
+#        Name: CodeDeployArtifactDummy
+#      Environment:
+#        Type: LINUX_CONTAINER
+#        ComputeType: BUILD_GENERAL1_SMALL
+#        Image: craigwongva/grails240:grails240
+#      Source:
+#        Location: https://github.com/craigwongva/microqoder
+#        BuildSpec: buildspec.yml
+#        Type: GITHUB
+#        Auth: 
+#          Type: OAUTH
+#      TimeoutInMinutes: 5          
+#  CDApp:
+#    Type: AWS::CodeDeploy::Application
+#    Properties:
+#      ApplicationName: CDAppName
+#  CDGroupUnref:
+#    Type: AWS::CodeDeploy::DeploymentGroup
+#    DependsOn: CDRole
+#    DependsOn: CDApp    
+#    Properties:
+#      ApplicationName: CDAppName
+#      DeploymentConfigName: CodeDeployDefault.AllAtOnce
+#      DeploymentGroupName: CDGroup
+#      Ec2TagFilters:
+#        - Key: Name
+#          Value: MicroqoderTomcat
+#          Type: KEY_AND_VALUE
+#      ServiceRoleArn: !GetAtt [CDRole, Arn]      
+#  Pipeline:
+#    Type: AWS::CodePipeline::Pipeline
+#    Properties:
+#      ArtifactStore:
+#        Location: !Ref ArtifactStoreBucket
+#        Type: S3
+#      DisableInboundStageTransitions: []
+#      Name: MicroqoderPipeline
+#      RoleArn: !GetAtt [CPRole, Arn]
+##      RoleArn: !GetAtt [cpRole, Arn]
+#      Stages:
+#        - Name: Sourcing
+#          Actions:
+#            - Name: SourceAction
+#              ActionTypeId:
+#                Category: Source
+#                Owner: ThirdParty
+#                Provider: GitHub
+#                Version: 1
+#              Configuration:
+#                Owner: craigwongva
+#                Repo: microqoder
+#                Branch: master
+#                OAuthToken: !Ref githubpassword
+#                PollForSourceChanges: true
+#              OutputArtifacts:
+#                - Name: SourceArtifact
+#        - Name: BuildStage
+#          Actions:
+#            - Name: BuildAction
+#              InputArtifacts:
+#                - Name: SourceArtifact
+#              ActionTypeId:
+#                Category: Build
+#                Owner: AWS
+#                Version: 1
+#                Provider: CodeBuild
+#              Configuration:
+#                ProjectName: MicroqoderCBProject
+#              OutputArtifacts:                
+#                - Name: BuildArtifact                 
+#        - Name: DeployStage
+#          Actions:
+#            - Name: DeployAction
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CodeDeploy
+#                Version: 1            
+#              InputArtifacts:
+#                - Name: BuildArtifact
+#              Configuration:
+#                ApplicationName: CDAppName
+#                DeploymentGroupName: CDGroup
+Outputs:
+  DBEndpoint:
+    Value: !GetAtt DBInstance.Endpoint.Address
+    Export:
+      Name: Endpoint
