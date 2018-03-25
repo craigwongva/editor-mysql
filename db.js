@@ -3,10 +3,10 @@ let knex = require('knex');
 module.exports = knex({
         client: 'mysql',
         connection: {
-                database: 'DATABASE',
+                database: 'editordb',
                 host: 'HOST',
-                password: 'PASSWORD',
-                user: 'USER',
+                user: 'editoruser',
+                password: 'editorpassword',
                 dateStrings: true
         }
 });

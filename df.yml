@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
-  dbinstancename:
+  dbendpoint:
     Type: String
 Resources:
   TomcatInstanceRole:
@@ -78,20 +78,16 @@ Resources:
             -
               - "#!/bin/bash -ex\n"
               - "yum install git -y\n"
-              #- "sudo -u ec2-user bash -c 'cd /home/ec2-user; git clone https://github.com/craigwongva/microqoder'\n"
-              #- "sudo -u ec2-user bash -c 'cd /home/ec2-user/microqoder; ./userdata/install' \n"
+              - "sudo -u ec2-user bash -c 'cd /home/ec2-user; git clone https://github.com/craigwongva/editor-mysql'\n"
+              - "sudo -u ec2-user bash -c 'cd /home/ec2-user/editor-mysql; ./userdata "
+              - !Ref dbendpoint
+              - " > /tmp/userdata'\n"
       InstanceType: t2.micro
       ImageId: ami-32d8124a
       Tags:
         - Key: Name
           Value: EditorTomcat
 Outputs:
-  DBEndpoint:
+  PublicIP:
+    Description: "The Instance IP"
     Value: !GetAtt Tomcat.PublicIp
-    Export:
-      Name: 
-        Fn::Join:
-          - "-"
-          -
-            - !Ref dbinstancename
-            - PublicIp

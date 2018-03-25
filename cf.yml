@@ -2,8 +2,8 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
 #  githubpassword:
 #    Type: String
-   dbinstancename:
-     Type: String
+#   dbinstancename:
+#     Type: String
    dbusername:
      Type: String
    dbpassword:
@@ -13,7 +13,7 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       DBInstanceIdentifier: 
-        Ref: dbinstancename
+        Ref: AWS::StackName
       #DBName: feditor
       PubliclyAccessible: true
       BackupRetentionPeriod: 0
@@ -361,11 +361,13 @@ Resources:
 #                DeploymentGroupName: CDGroup
 Outputs:
   DBEndpoint:
+    Description: "The RDS endpoint"
     Value: !GetAtt DBInstance.Endpoint.Address
-    Export:
-      Name: 
-        Fn::Join:
-          - "-"
-          -
-            - !Ref dbinstancename
-            - Endpoint
+#I don't think an export is needed.
+#    Export:
+#      Name: 
+#        Fn::Join:
+#          - "-"
+#          -
+#            - !Ref dbinstancename
+#            - Endpoint

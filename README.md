@@ -15,6 +15,10 @@ greendots-golang:
     This runs an example web page and then plays Billy Abel music.
     Run it like this: http://54.201.97.190:8077/
 
+3/25/18:
+editor-mysql:
+  aws cloudformation create-stack --stack-name editordb --template-body file://cf.yml --region us-west-2 --parameter ParameterKey=dbusername,ParameterValue=editoruser ParameterKey=dbpassword,ParameterValue=editorpassword
+
 spryMedia:
   (only exists in today's gocontainer instance)
   cd ~/spryMedia

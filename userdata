@@ -1,0 +1,31 @@
+cd /home/ec2-user
+git clone https://github.com/craigwongva/editor-mysql
+
+#Populate a database with sample data
+curl https://editor.datatables.net/examples/sql/mysql.sql > mysql.sql
+sudo yum install mysql -y
+echo "create database editordb" | mysql --host=$1 --user=editoruser --password=editorpassword
+mysql editordb --host=$1 --user=editoruser --password=editorpassword < mysql.sql 
+
+#Install NodeJS
+# See https://stackoverflow.com/questions/42749326/installing-node-7-on-centos-machine:
+curl https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+source ~/.nvm/nvm.sh
+nvm install 7
+nvm use 7
+
+#Get Editor examples
+mkdir spryMedia
+aws s3 cp s3://redf4rth-root-oregon/polly-kaitlin/Editor-NodeJS-1.7.3.zip spryMedia/
+cd spryMedia
+unzip Editor-NodeJS-1.7.3.zip
+
+npm install
+sed -i "s/8081, 'localhost',/8081,/" index.js
+sed -i "s/new Field('readingOrder').validator(Validate.notEmpty()),/new Field('readingOrder').validator(Validate.notEmpty())/" controllers/sequence.js
+cp /home/ec2-user/editor-mysql/db.js .
+sed -i "s/HOST/$1/" db.js
+
+npm start &
+#http://54.201.97.190:8081/simple/simple.html 
+
