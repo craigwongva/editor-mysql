@@ -34,6 +34,7 @@ Resources:
                   - "s3:*"
                 Resource:
                   - "arn:aws:s3:::aws-codedeploy-us-east-1/latest/*"
+                  - "arn:aws:s3:::redf4rth-root-oregon/polly-kaitlin/*"
       Path: "/"      
   TomcatProfileUnref:
     Type: AWS::IAM::InstanceProfile
@@ -59,6 +60,10 @@ Resources:
         FromPort: 8080
         IpProtocol: tcp
         ToPort: 8080
+      - CidrIp: REDACTED
+        FromPort: 8081
+        IpProtocol: tcp
+        ToPort: 8081
   Tomcat:
     Type: AWS::EC2::Instance
     Properties:

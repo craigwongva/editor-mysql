@@ -20,12 +20,14 @@ spryMedia:
   cd ~/spryMedia
   
 cd /home/ec2-user
+git clone https://github.com/craigwongva/editor-mysql
 
 #Populate a database with sample data
 curl https://editor.datatables.net/examples/sql/mysql.sql > mysql.sql
-sudo yum install mysql
+sudo yum install mysql -y
+#@TODO: Remove hardcoded keditor in next two lines:
 echo "create database editordb" | mysql --host=keditor.c7goimpdknhj.us-west-2.rds.amazonaws.com --user=editoruser --password=editorpassword
-mysql editordb --host=jeditor.c7goimpdknhj.us-west-2.rds.amazonaws.com --user=editoruser --password=editorpassword < mysql.sql > output.tab
+mysql editordb --host=jeditor.c7goimpdknhj.us-west-2.rds.amazonaws.com --user=editoruser --password=editorpassword < mysql.sql 
 
 #Install NodeJS
 # See https://stackoverflow.com/questions/42749326/installing-node-7-on-centos-machine:
@@ -40,9 +42,11 @@ aws s3 cp s3://redf4rth-root-oregon/polly-kaitlin/Editor-NodeJS-1.7.3.zip spryMe
 cd spryMedia
 unzip Editor-NodeJS-1.7.3.zip
 
-#Do these manually:
-#5. vi index.js: remove the extra comma before the )
-#6. vi index.js: change the listen command in index.js from "8081, 'localhost', function" to "8081, function"
+npm install
+sed -i "s/8081, 'localhost',/8081,/" index.js
+sed -i "s/new Field('readingOrder').validator(Validate.notEmpty()),/new Field('readingOrder').validator(Validate.notEmpty())/" controllers/sequence.js
+cp /home/ec2-user/editor-mysql/db.js .
+#-->Replace the four variables in db.js
 #7. to run, "npm start"
 #http://54.201.97.190:8081/simple/simple.html 
 
