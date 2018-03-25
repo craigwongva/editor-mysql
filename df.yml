@@ -6,6 +6,8 @@ Parameters:
     Type: String
   dbendpoint:
     Type: String
+  dbpassword:
+    Type: String
 Resources:
   TomcatInstanceRole:
     Type: AWS::IAM::Role
@@ -93,6 +95,8 @@ Resources:
               - "sudo -u ec2-user bash -c 'cd /home/ec2-user; git clone https://github.com/craigwongva/editor-mysql'\n"
               - "sudo -u ec2-user bash -c 'cd /home/ec2-user/editor-mysql; ./userdata "
               - !Ref dbendpoint
+              - " "
+              - !Ref dbpassword
               - " > /tmp/userdata'\n"
       InstanceType: t2.micro
       ImageId: ami-32d8124a

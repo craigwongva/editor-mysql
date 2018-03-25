@@ -6,7 +6,7 @@ module.exports = knex({
                 database: 'editordb',
                 host: 'HOST',
                 user: 'editoruser',
-                password: 'editorpassword',
+                password: 'PASSWORD',
                 dateStrings: true
         }
 });

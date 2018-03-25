@@ -25,6 +25,7 @@ sed -i "s/8081, 'localhost',/8081,/" index.js
 sed -i "s/new Field('readingOrder').validator(Validate.notEmpty()),/new Field('readingOrder').validator(Validate.notEmpty())/" controllers/sequence.js
 cp /home/ec2-user/editor-mysql/db.js .
 sed -i "s/HOST/$1/" db.js
+sed -i "s/PASSWORD/$2/" db.js
 
 #Use the next two lines because I don't understand
 # how to accomplish the same via AWS::RDS::DBSecurityGroup.
