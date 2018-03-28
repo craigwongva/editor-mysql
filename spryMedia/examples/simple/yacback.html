@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+	<title>Editor example - Basic initialisation</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="../../css/editor.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="../resources/syntax/shCore.css">
+	<link rel="stylesheet" type="text/css" href="../resources/demo.css">
+	<style type="text/css" class="init">
+	
+	</style>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.2.5/js/dataTables.select.min.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/dataTables.editor.min.js"></script>
+	<script type="text/javascript" language="javascript" src="../resources/syntax/shCore.js"></script>
+	<script type="text/javascript" language="javascript" src="../resources/demo.js"></script>
+	<script type="text/javascript" language="javascript" src="../resources/editor-demo.js"></script>
+	<script type="text/javascript" language="javascript" class="init">
+	
+
+
+var editor; // use a global for the submit and return data rendering in the examples
+
+$(document).ready(function() {
+	editor = new $.fn.dataTable.Editor( {
+		ajax: "/snapi/yacback",
+		table: "#example",
+		fields: [ {
+				label: "tag:",
+				name: "tag"
+			}, {
+				label: "en:",
+				name: "en"
+			}, {
+				label: "es:",
+				name: "es"
+			} 
+		]
+	} );
+
+	$('#example').DataTable( {
+		dom: "Bfrtip",
+		ajax: "/snapi/yacback",
+		columns: [
+			{ data: "tag" },
+			{ data: "en" },
+			{ data: "es" },
+		],
+		select: true,
+		buttons: [
+			{ extend: "create", editor: editor },
+			{ extend: "edit",   editor: editor },
+			{ extend: "remove", editor: editor }
+		]
+	} );
+} );
+
+
+
+	</script>
+</head>
+<body class="dt-example node">
+	<div class="container">
+		<section>
+			<h1>Editor example <span>Basic initialisation</span></h1>
+			<div class="info">
+				<p><a href="//editor.datatables.net">Editor</a> is a Create, Read, Update and Delete (CRUD) extension for <a href="//datatables.net">DataTables</a> that provides
+				the ability to easily add, edit and delete rows on a database that is displayed by a DataTable. Editor provides a clean and responsive interface for end user
+				manipulation of data, an expressive API for complete control and a well defined server communications protocol for data submission.</p>
+				<p>This simple example shows a table with seven fields, each of which can be edited as plain text. In other examples we will explore how to add date pickers,
+				<code class="tag" title="HTML tag">select</code> elements and other controls to make form input intuitive for the system user, among many other aspects of the
+				Editor API.</p>
+			</div>
+			<div class="demo-html"></div>
+			<table id="example" class="display" style="width:100%">
+				<thead>
+					<tr>
+						<th>tag</th>
+						<th>en</th>
+						<th>es</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>tag</th>
+						<th>en</th>
+						<th>es</th>
+					</tr>
+				</tfoot>
+			</table>
+	</section>
+</body>
+</html>
