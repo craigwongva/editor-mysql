@@ -15,6 +15,8 @@ sudo yum install mysql -y
 echo "create database editordb" | mysql --host=$1 --user=editoruser --password=$2
 mysql editordb --host=$1 --user=editoruser --password=$2 < mysql.sql 
 
+mysql editordb --host=$1 --user=editoruser --password=$2 < /home/ec2-user/editor-mysql/yacback.sql 
+
 #Install NodeJS
 # See https://stackoverflow.com/questions/42749326/installing-node-7-on-centos-machine:
 curl https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
