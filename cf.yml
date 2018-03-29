@@ -11,6 +11,7 @@ Parameters:
 Resources:
   DBInstance:
     Type: AWS::RDS::DBInstance
+    DependsOn: DBSecurityGroup
     Properties:
       DBInstanceIdentifier: 
         Ref: AWS::StackName
