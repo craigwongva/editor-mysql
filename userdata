@@ -10,12 +10,11 @@ aws ec2 authorize-security-group-ingress --group-id $EDITORDB_SECGRP --cidr 0.0.
 sleep 5
 
 #Populate a database with sample data
-curl https://editor.datatables.net/examples/sql/mysql.sql > mysql.sql
+#curl https://editor.datatables.net/examples/sql/mysql.sql > mysql.sql
 sudo yum install mysql -y
 echo "create database editordb" | mysql --host=$1 --user=editoruser --password=$2
-mysql editordb --host=$1 --user=editoruser --password=$2 < mysql.sql 
-
-mysql editordb --host=$1 --user=editoruser --password=$2 < /home/ec2-user/editor-mysql/yacback.sql 
+mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/spryMedia/mysql.sql 
+mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/spryMedia/yacback.sql 
 
 #Install NodeJS
 # See https://stackoverflow.com/questions/42749326/installing-node-7-on-centos-machine:
@@ -36,6 +35,11 @@ sed -i "s/new Field('readingOrder').validator(Validate.notEmpty()),/new Field('r
 cp /home/ec2-user/editor-mysql/db.js .
 sed -i "s/HOST/$1/" db.js
 sed -i "s/PASSWORD/$2/" db.js
+
+#Add yacback files
+cp ~/editor-mysql/spryMedia/controllers/index.js         ~/spryMedia/controllers/
+cp ~/editor-mysql/spryMedia/controllers/yacback.js       ~/spryMedia/controllers/
+cp ~/editor-mysql/spryMedia/examples/simple/yacback.html ~/spryMedia/examples/simple/
 
 npm start &
 #http://54.201.97.190:8081/simple/simple.html 
