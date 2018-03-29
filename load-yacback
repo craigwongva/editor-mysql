@@ -1,0 +1,3 @@
+cp editor-mysql/spryMedia/controllers/index.js         ~/spryMedia/controllers/
+cp editor-mysql/spryMedia/controllers/yacback.js       ~/spryMedia/controllers/
+cp editor-mysql/spryMedia/examples/simple/yacback.html ~/spryMedia/examples/simple/
