@@ -40,7 +40,11 @@ sed -i "s/PASSWORD/$2/" db.js
 cp ~/editor-mysql/spryMedia/controllers/index.js         ~/spryMedia/controllers/
 cp ~/editor-mysql/spryMedia/controllers/yacback.js       ~/spryMedia/controllers/
 cp ~/editor-mysql/spryMedia/examples/simple/yacback.html ~/spryMedia/examples/simple/
+cp ~/editor-mysql/spryMedia/examples/inline-editing/yacback.html ~/spryMedia/examples/inline-editing/
 
 npm start &
-#http://54.201.97.190:8081/simple/simple.html 
 
+#http://yacback.redf4rth.net:8077/external
+#http://yacback.redf4rth.net:8081/simple/simple.html
+#http://yacback.redf4rth.net:8081/simple/yacback.html
+#http://yacback.redf4rth.net:8081/inline-editing/tabControl.html
