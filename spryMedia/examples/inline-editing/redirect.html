@@ -31,18 +31,31 @@ var editor; // use a global for the submit and return data rendering in the exam
 
 $(document).ready(function() {
 	editor = new $.fn.dataTable.Editor( {
-		ajax: "/snapi/yacback",
+		ajax: "/api/staff",
 		table: "#example",
 		fields: [ {
-				label: "tag:",
-				name: "tag"
+				label: "First name:",
+				name: "first_name"
 			}, {
-				label: "en:",
-				name: "en"
+				label: "Last name:",
+				name: "last_name"
 			}, {
-				label: "es:",
-				name: "es"
-			}, 
+				label: "Position:",
+				name: "position"
+			}, {
+				label: "Office:",
+				name: "office"
+			}, {
+				label: "Extension:",
+				name: "extn"
+			}, {
+				label: "Start date:",
+				name: "start_date",
+				type: "datetime"
+			}, {
+				label: "Salary:",
+				name: "salary"
+			}
 		],
 		formOptions: {
 			inline: {
@@ -51,39 +64,43 @@ $(document).ready(function() {
 		}
 	} );
 
-//				var data = {};
-//					data.title = "title";
-//					data.message = "message";
-//
-//					$.ajax('http://54.202.63.195:8077/external', {
-//					        type: 'GET',
-//					        //data: JSON.stringify(data),
-//						success: function(r) { 
-//							console.log('success');
-//							console.log(r);
-//							var tag = r.data[0].tag
-//							var en  = r.data[0].en
-//							var es  = r.data[0].es
-//							//var n = r.Status
-//							console.log(es);
-//							//console.log(n);
-//
-//						$('#example').dataTable( {
-//						    "data": [
-//						        //[ "14v", "maya means charm, illusion, dream", "maya significa hechizo, ilusión, dream", "101", "102", "103" ]
-//						        [ tag, en, es, "101", "102", "103", "104" ]
-//						    ]
-//						} );
-//
-//						},
-//                                                error  : function() { console.log('error');}
-//					});
-
-
-
+	var table = $('#example').DataTable( {
+		dom: "Bfrtip",
+		ajax: "/snapi/yacback",
+		columns: [
+			{ data: "tag" },
+			{ data: "en" },
+			{ data: "es" },
+		],
+		order: [ 1, 'asc' ],
+		keys: {
+			columns: ':not(:first-child)',
+			keys: [ 2 ],
+			editor: editor,
+			editOnFocus: true
+		},
+		select: {
+			style:    'os',
+			selector: 'td:first-child'
+		},
+		buttons: [
+			{ extend: "create", editor: editor },
+			{ extend: "edit",   editor: editor },
+			{ extend: "remove", editor: editor }
+		]
+	} );
 } );
 
 
+                                      $.ajax('/snapi/redirect', {
+                                              type: 'GET',
+                                                success  : function(r) { 
+							console.log('success start');
+							console.log(r);
+							console.log('success end');
+						},
+                                                error  : function() { console.log('error');}
+                                      });
 	</script>
 </head>
 <body class="dt-example node">
@@ -107,13 +124,26 @@ $(document).ready(function() {
 						<th></th>
 						<th>First name</th>
 						<th>Last name</th>
-						<th>Qosition</th>
+						<th>Position</th>
 						<th>Office</th>
 						<th width="18%">Start date</th>
 						<th>Salary</th>
 					</tr>
 				</thead>
 			</table>
+                        <table id="example2" class="display" cellspacing="0" width="100%">
+                                <thead>
+                                        <tr>
+                                                <th></th>
+                                                <th>First name</th>
+                                                <th>Last name</th>
+                                                <th>Position</th>
+                                                <th>Office</th>
+                                                <th width="18%">Start date</th>
+                                                <th>Salary</th>
+                                        </tr>
+                                </thead>
+                        </table>
 			<ul class="tabs">
 				<li class="active">Javascript</li>
 				<li>HTML</li>

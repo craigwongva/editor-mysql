@@ -19,6 +19,8 @@ router.use(require('./time'));
 router.use(require('./todo'));
 router.use(require('./upload-many'));
 router.use(require('./upload'));
+
 router.use(require('./yacback'));
+router.use(require('./redirect'));
 
 module.exports = router;
