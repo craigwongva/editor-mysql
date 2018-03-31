@@ -39,8 +39,10 @@ sed -i "s/PASSWORD/$2/" db.js
 #Add yacback files
 cp ~/editor-mysql/spryMedia/controllers/index.js         ~/spryMedia/controllers/
 cp ~/editor-mysql/spryMedia/controllers/yacback.js       ~/spryMedia/controllers/
+cp ~/editor-mysql/spryMedia/controllers/redirect.js      ~/spryMedia/controllers/
 cp ~/editor-mysql/spryMedia/examples/simple/yacback.html ~/spryMedia/examples/simple/
-cp ~/editor-mysql/spryMedia/examples/inline-editing/yacback.html ~/spryMedia/examples/inline-editing/
+cp ~/editor-mysql/spryMedia/examples/inline-editing/yacback.html  ~/spryMedia/examples/inline-editing/
+cp ~/editor-mysql/spryMedia/examples/inline-editing/redirect.html ~/spryMedia/examples/inline-editing/
 
 npm start &
 
@@ -48,3 +50,4 @@ npm start &
 #http://yacback.redf4rth.net:8081/simple/simple.html
 #http://yacback.redf4rth.net:8081/simple/yacback.html
 #http://yacback.redf4rth.net:8081/inline-editing/tabControl.html
+#http://yacback.redf4rth.net:8081/inline-editing/redirect.html
