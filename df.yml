@@ -33,6 +33,7 @@ Resources:
                 Action:
                   - "logs:*"
                   - "rds:DescribeDBInstances"
+                  - "route53:ChangeResourceRecordSets"
                 Resource:
                   - "*"
               - 
