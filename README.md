@@ -30,3 +30,10 @@ editor-mysql:
 use innodb;
 drop database editordb;
 ```
+
+  To run manually:
+
+```
+cd ~/spryMedia
+node index.js
+```
