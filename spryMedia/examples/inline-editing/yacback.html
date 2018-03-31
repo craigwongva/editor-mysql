@@ -57,24 +57,28 @@ $(document).ready(function() {
 
 					$.ajax('http://34.216.204.52:8077/external', {
 					        type: 'GET',
-					        data: JSON.stringify(data),
+					        //data: JSON.stringify(data),
 						success: function(r) { 
 							console.log('success');
 							console.log(r);
-							//var foox = JSON.parse(r)
-							var m = r.Results
-							var n = r.Status
-							console.log(m);
-							console.log(n);
+							var tag = r.data[0].tag
+							var en  = r.data[0].en
+							var es  = r.data[0].es
+							//var n = r.Status
+							console.log(es);
+							//console.log(n);
+
+$('#example').dataTable( {
+    "data": [
+        //[ "14v", "maya means charm, illusion, dream", "maya significa hechizo, ilusión, dream", "101", "102", "103" ]
+        [ tag, en, es, "101", "102", "103", "104" ]
+    ]
+} );
+
 						},
                                                 error  : function() { console.log('error');}
 					});
 
-$('#example').dataTable( {
-    "data": [
-        [ "14t", "maya means charm, illusion, dream", "maya significa hechizo, ilusión, dream", "101", "102", "103" ]
-    ]
-} );
 
 
 } );
