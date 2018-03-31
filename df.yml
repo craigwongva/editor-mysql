@@ -79,6 +79,24 @@ Resources:
         FromPort: 8081
         IpProtocol: tcp
         ToPort: 8081
+      - CidrIp: 
+          Fn::Join:
+            - ""
+            -
+              - !Ref IP22
+              - "/32"
+        FromPort: 8077
+        IpProtocol: tcp
+        ToPort: 8077
+      - CidrIp: 
+          Fn::Join:
+            - ""
+            -
+              - !Ref IP8081
+              - "/32"
+        FromPort: 8077
+        IpProtocol: tcp
+        ToPort: 8077
   Tomcat:
     Type: AWS::EC2::Instance
     Properties:
