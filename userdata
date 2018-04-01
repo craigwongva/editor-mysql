@@ -46,6 +46,7 @@ cp mySpryMedia/examples/simple/yacback.html          scotSpryMedia/examples/simp
 cp mySpryMedia/examples/inline-editing/yacback.html  scotSpryMedia/examples/inline-editing/
 cp mySpryMedia/examples/inline-editing/redirect.html scotSpryMedia/examples/inline-editing/
 
+cd scotSpryMedia
 npm start &
 
 cd ~
