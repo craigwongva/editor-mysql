@@ -34,6 +34,6 @@ drop database editordb;
   To run manually:
 
 ```
-cd ~/spryMedia
+cd ~/editor-mysql/scotSpryMedia
 node index.js
 ```

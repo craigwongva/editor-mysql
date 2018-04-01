@@ -13,8 +13,8 @@ sleep 5
 #curl https://editor.datatables.net/examples/sql/mysql.sql > mysql.sql
 sudo yum install mysql -y
 echo "create database editordb" | mysql --host=$1 --user=editoruser --password=$2
-mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/spryMedia/mysql.sql 
-mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/spryMedia/yacback.sql 
+mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/mySpryMedia/mysql.sql
+mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/mySpryMedia/yacback.sql
 
 #Install NodeJS
 # See https://stackoverflow.com/questions/42749326/installing-node-7-on-centos-machine:
@@ -24,9 +24,10 @@ nvm install 7
 nvm use 7
 
 #Get Editor examples
-mkdir spryMedia
-aws s3 cp s3://redf4rth-root-oregon/polly-kaitlin/Editor-NodeJS-1.7.3.zip spryMedia/
-cd spryMedia
+cd ~/editor-mysql
+mkdir scotSpryMedia
+aws s3 cp s3://redf4rth-root-oregon/polly-kaitlin/Editor-NodeJS-1.7.3.zip scotSpryMedia/ 
+cd scotSpryMedia
 unzip Editor-NodeJS-1.7.3.zip
 
 npm install
@@ -37,12 +38,13 @@ sed -i "s/HOST/$1/" db.js
 sed -i "s/PASSWORD/$2/" db.js
 
 #Add yacback files
-cp ~/editor-mysql/spryMedia/controllers/index.js         ~/spryMedia/controllers/
-cp ~/editor-mysql/spryMedia/controllers/yacback.js       ~/spryMedia/controllers/
-cp ~/editor-mysql/spryMedia/controllers/redirect.js      ~/spryMedia/controllers/
-cp ~/editor-mysql/spryMedia/examples/simple/yacback.html ~/spryMedia/examples/simple/
-cp ~/editor-mysql/spryMedia/examples/inline-editing/yacback.html  ~/spryMedia/examples/inline-editing/
-cp ~/editor-mysql/spryMedia/examples/inline-editing/redirect.html ~/spryMedia/examples/inline-editing/
+cd ~/editor-mysql
+cp mySpryMedia/controllers/index.js                  scotSpryMedia/controllers/ 
+cp mySpryMedia/controllers/yacback.js                scotSpryMedia/controllers/
+cp mySpryMedia/controllers/redirect.js               scotSpryMedia/controllers/
+cp mySpryMedia/examples/simple/yacback.html          scotSpryMedia/examples/simple/
+cp mySpryMedia/examples/inline-editing/yacback.html  scotSpryMedia/examples/inline-editing/
+cp mySpryMedia/examples/inline-editing/redirect.html scotSpryMedia/examples/inline-editing/
 
 npm start &
 
