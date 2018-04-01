@@ -46,8 +46,14 @@ cp ~/editor-mysql/spryMedia/examples/inline-editing/redirect.html ~/spryMedia/ex
 
 npm start &
 
+cd ~
+git clone https://github.com/craigwongva/greendots-golang
+cd greendots-golang
+./userdata/install
+
 #http://yacback.redf4rth.net:8077/external
 #http://yacback.redf4rth.net:8081/simple/simple.html
 #http://yacback.redf4rth.net:8081/simple/yacback.html
 #http://yacback.redf4rth.net:8081/inline-editing/tabControl.html
 #http://yacback.redf4rth.net:8081/inline-editing/redirect.html
+
