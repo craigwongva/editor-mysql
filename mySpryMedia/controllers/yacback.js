@@ -7,8 +7,11 @@ let {
 	Format,
 	Options
 } = require("datatables.net-editor-server");
-console.log('yacback.js 100');
 router.all('/snapi/yacback', async function(req, res) {
+console.log('controller/yacback.js :');
+console.log('The req is: :');
+console.log(req.params);
+console.log('The req is finished :');
 	let editor = new Editor(db, 'yacback').fields(
 		new Field('tag'),
 		new Field('en'),
