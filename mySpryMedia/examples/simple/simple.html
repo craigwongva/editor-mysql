@@ -14,6 +14,7 @@
 	<style type="text/css" class="init">
 	
 	</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
@@ -74,7 +75,7 @@ $(document).ready(function() {
 		]
 	} );
 
-	$('#example').DataTable( {
+	var mytable = $('#example').DataTable( {
 		dom: "Bfrtip",
 		ajax: "/api/staff?office="+office,
 		columns: [
@@ -95,6 +96,11 @@ $(document).ready(function() {
 			{ extend: "remove", editor: editor }
 		]
 	} );
+
+        $('.submitBtn').on('click', function() {
+        	console.log("Clicked!");
+		mytable.column( 3 ).visible( false );
+	});
 } );
 
 
@@ -114,6 +120,9 @@ $(document).ready(function() {
 				Editor API.</p>
 			</div>
 			<div class="demo-html"></div>
+
+<button menu="submitBtn" class="submitBtn len4 btn" title="submit" data-code-m="sbm.submit"> Click this
+        </button>
 			<table id="example" class="display" style="width:100%">
 				<thead>
 					<tr>
@@ -198,7 +207,10 @@ $(document).ready(function() {
 			{ extend: &quot;remove&quot;, editor: editor }
 		]
 	} );
-} );</code>
+
+} );
+
+</code>
 					<p>In addition to the above code, the following Javascript library files are loaded for use in this example:</p>
 					<ul>
 						<li>
@@ -584,3 +596,4 @@ $(document).ready(function() {
 	</section>
 </body>
 </html>
+
