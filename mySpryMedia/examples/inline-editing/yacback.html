@@ -90,6 +90,25 @@ $(document).ready(function() {
 			{ extend: "remove", editor: editor }
 		]
 	} );
+
+        $('.LessBtn').on('click', function() {
+                console.log("Less!");
+                table.column( 0 ).visible( false );
+                table.column( 1 ).visible( true );
+                table.column( 2 ).visible( false );
+                table.column( 3 ).visible( true );
+        });
+
+        $('.MoreBtn').on('click', function() {
+                console.log("More!");
+                table.column( 0 ).visible( true );
+                table.column( 1 ).visible( true );
+                table.column( 2 ).visible( true );
+                table.column( 3 ).visible( true );
+        });
+
+
+
 } );
 
 /*
@@ -121,12 +140,16 @@ $(document).ready(function() {
                                                 error  : function() { console.log('error');}
                                       });
 */
+
+
 	</script>
 </head>
 <body class="dt-example node">
 	<div class="container">
 		<section>
 			<h1>Editor example <span>Tab between columns</span></h1>
+<button menu="LessBtn" class="LessBtn len4 btn" title="submit" data-code-m="sbm.submit"> Less </button>
+<button menu="MoreBtn" class="MoreBtn len4 btn" title="submit" data-code-m="sbm.submit"> More </button>
 			<table id="example" class="display" cellspacing="0" width="100%">
 				<thead>
 					<tr>
