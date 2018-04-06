@@ -34,6 +34,9 @@ $(document).ready(function() {
 		ajax: "/snapi/yacback",
 		table: "#example",
 		fields: [ {
+				label: "rn",
+				name: "rn"
+			}, {
 				label: "tag",
 				name: "tag"
 			}, {
@@ -45,7 +48,7 @@ $(document).ready(function() {
 			}, {
 				label: "me",
 				name: "me"
-			} 
+			}
 		],
 		formOptions: {
 			inline: {
@@ -58,12 +61,13 @@ $(document).ready(function() {
 		dom: "Bfrtip",
 		ajax: "/snapi/yacback",
 		columns: [
+			{ data: "rn" },
 			{ data: "tag" },
 			{ data: "en" },
 			{ data: "es" },
 			{ data: "me" },
 		],
-		order: [ 1, 'asc' ],
+		order: [ 0, 'asc' ],
 		keys: {
 			//columns: ':not(:first-child)',
 			columns: ':last-child',
@@ -85,9 +89,10 @@ $(document).ready(function() {
         $('.LessBtn').on('click', function() {
                 console.log("Less!");
                 table.column( 0 ).visible( false );
-                table.column( 1 ).visible( true );
-                table.column( 2 ).visible( false );
-                table.column( 3 ).visible( true );
+                table.column( 1 ).visible( false );
+                table.column( 2 ).visible( true );
+                table.column( 3 ).visible( false );
+                table.column( 4 ).visible( true );
         });
 
         $('.MoreBtn').on('click', function() {
@@ -96,6 +101,7 @@ $(document).ready(function() {
                 table.column( 1 ).visible( true );
                 table.column( 2 ).visible( true );
                 table.column( 3 ).visible( true );
+                table.column( 4 ).visible( true );
         });
 
 
@@ -143,6 +149,7 @@ $(document).ready(function() {
 			<table id="example" class="display" cellspacing="0" width="100%">
 				<thead>
 					<tr>
+						<th>rn</th>
 						<th>tag</th>
 						<th>en</th>
 						<th>es</th>
