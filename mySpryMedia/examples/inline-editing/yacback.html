@@ -33,13 +33,14 @@ $(document).ready(function() {
 	editor = new $.fn.dataTable.Editor( {
 		ajax: "/snapi/yacback",
 		table: "#example",
-		fields: [ {
+		fields: [ 
+			   {
 				label: "rn",
 				name: "rn"
 			}, {
-				label: "tag",
-				name: "tag"
-			}, {
+//				label: "tag",
+//				name: "tag"
+//			}, {
 				label: "en",
 				name: "en"
 			}, {
@@ -57,12 +58,13 @@ $(document).ready(function() {
 		}
 	} );
 
+
 	var table = $('#example').DataTable( {
 		dom: "Bfrtip",
 		ajax: "/snapi/yacback",
 		columns: [
-			{ data: "rn" },
-			{ data: "tag" },
+			{ data: "rn" , "visible": false },
+			//{ data: "tag" },
 			{ data: "en" },
 			{ data: "es" },
 			{ data: "me" },
@@ -86,22 +88,21 @@ $(document).ready(function() {
 		]
 	} );
 
+
         $('.LessBtn').on('click', function() {
                 console.log("Less!");
                 table.column( 0 ).visible( false );
-                table.column( 1 ).visible( false );
-                table.column( 2 ).visible( true );
-                table.column( 3 ).visible( false );
-                table.column( 4 ).visible( true );
+                table.column( 1 ).visible( true );
+                table.column( 2 ).visible( false );
+                table.column( 3 ).visible( true );
         });
 
         $('.MoreBtn').on('click', function() {
                 console.log("More!");
-                table.column( 0 ).visible( true );
+                table.column( 0 ).visible( false );
                 table.column( 1 ).visible( true );
                 table.column( 2 ).visible( true );
                 table.column( 3 ).visible( true );
-                table.column( 4 ).visible( true );
         });
 
 
@@ -150,7 +151,9 @@ $(document).ready(function() {
 				<thead>
 					<tr>
 						<th>rn</th>
+<!--
 						<th>tag</th>
+-->
 						<th>en</th>
 						<th>es</th>
 						<th>me</th>
