@@ -14,6 +14,7 @@ console.log(req.params);
 console.log('The req is finished :');
 	let editor = new Editor(db, 'yacback').fields(
 		new Field('tag'),
+		new Field('rn'),
 		new Field('en'),
 		new Field('es'),
 		new Field('me')

@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS yacback;
 
 CREATE TABLE `yacback` (
     `id` int(10) NOT NULL auto_increment,
+    `rn` float,
     `tag` varchar(10) NOT NULL default '',
     `en` varchar(100) NOT NULL default '',
     `es` varchar(100) NOT NULL default '',
