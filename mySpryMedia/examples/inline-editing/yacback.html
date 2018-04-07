@@ -35,12 +35,6 @@ $(document).ready(function() {
 		table: "#example",
 		fields: [ 
 			   {
-//				label: "rn",
-//				name: "rn"
-//			}, {
-//				label: "tag",
-//				name: "tag"
-//			}, {
 				label: "en",
 				name: "en"
 			}, {
@@ -64,7 +58,6 @@ $(document).ready(function() {
 		ajax: "/snapi/yacback",
 		columns: [
 			{ data: "rn" , "visible": false },
-			//{ data: "tag" },
 			{ data: "en" },
 			{ data: "es" },
 			{ data: "me" },
@@ -95,21 +88,8 @@ $(document).ready(function() {
                 table.column( 1 ).visible( true );
                 table.column( 2 ).visible( false );
                 table.column( 3 ).visible( true );
-        });
-
-        $('.MoreBtn').on('click', function() {
-                console.log("More!");
-                table.column( 0 ).visible( false );
-                table.column( 1 ).visible( true );
-                table.column( 2 ).visible( true );
-                table.column( 3 ).visible( true );
-        });
-
-
-
-} );
-
 /*
+//on click, show a table via Golang
                               var data = {};
                                       data.title = "title";
                                       data.message = "message";
@@ -129,8 +109,8 @@ $(document).ready(function() {
 
                                               $('#example2').dataTable( {
                                                   "data": [
-                                                      //[ "CAR", "maya means charm, illusion, dream", "maya significa hechizo, ilusión, dream", "101", "102", "103" ]
-                                                      [ tag, en, es, "101", "102", "103", "104" ]
+                                                      //[ "CAR", "maya means charm, illusion, dream", "maya significa hechizo, ilusión, dream" ]
+                                                      [ en, es ]
                                                   ]
                                               } );
 
@@ -138,6 +118,53 @@ $(document).ready(function() {
                                                 error  : function() { console.log('error');}
                                       });
 */
+//on click, show a table via Nodejs
+	var table3 = $('#example2').DataTable( {
+		dom: "Bfrtip",
+		ajax: "/snapi/yacback",
+		columns: [
+			{ data: "rn" , "visible": false },
+			{ data: "en" },
+			{ data: "es" },
+			{ data: "me" },
+		],
+		order: [ 0, 'asc' ],
+		keys: {
+			//columns: ':not(:first-child)',
+			columns: ':last-child',
+			keys: [ 9 ], //9 means ^I
+			editor: editor,
+			editOnFocus: true
+		},
+		select: {
+			style:    'os',
+			selector: 'td:first-child'
+		},
+		buttons: [
+			{ extend: "create", editor: editor },
+			{ extend: "edit",   editor: editor },
+			{ extend: "remove", editor: editor }
+		]
+	} );
+
+
+
+
+
+        });
+
+        $('.MoreBtn').on('click', function() {
+                console.log("More!");
+                table.column( 0 ).visible( false );
+                table.column( 1 ).visible( true );
+                table.column( 2 ).visible( true );
+                table.column( 3 ).visible( true );
+        });
+
+
+
+} );
+
 
 
 	</script>
@@ -150,9 +177,6 @@ $(document).ready(function() {
 			<table id="example" class="display" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-<!--
-						<th>tag</th>
--->
 						<th>rn</th>
 						<th>en</th>
 						<th>es</th>
@@ -160,6 +184,15 @@ $(document).ready(function() {
 					</tr>
 				</thead>
 			</table>
+			<table id="example2" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>rn</th>
+						<th>en</th>
+						<th>es</th>
+						<th>me</th>
+					</tr>
+				</thead>
 		</section>
 	</div>
 </body>
