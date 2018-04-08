@@ -30,6 +30,7 @@
 var editor; // use a global for the submit and return data rendering in the examples
 
 $(document).ready(function() {
+
 	editor = new $.fn.dataTable.Editor( {
 		ajax: "/snapi/yacback",
 		table: "#example",
@@ -84,10 +85,12 @@ $(document).ready(function() {
 
         $('.LessBtn').on('click', function() {
                 console.log("Less!");
+
                 table.column( 0 ).visible( false );
                 table.column( 1 ).visible( true );
                 table.column( 2 ).visible( false );
                 table.column( 3 ).visible( true );
+
 /*
 //on click, show a table via Golang
                               var data = {};
@@ -118,38 +121,24 @@ $(document).ready(function() {
                                                 error  : function() { console.log('error');}
                                       });
 */
-//on click, show a table via Nodejs
-	var table3 = $('#example2').DataTable( {
-		dom: "Bfrtip",
-		ajax: "/snapi/yacback",
-		columns: [
-			{ data: "rn" , "visible": false },
-			{ data: "en" },
-			{ data: "es" },
-			{ data: "me" },
-		],
-		order: [ 0, 'asc' ],
-		keys: {
-			//columns: ':not(:first-child)',
-			columns: ':last-child',
-			keys: [ 9 ], //9 means ^I
-			editor: editor,
-			editOnFocus: true
-		},
-		select: {
-			style:    'os',
-			selector: 'td:first-child'
-		},
-		buttons: [
-			{ extend: "create", editor: editor },
-			{ extend: "edit",   editor: editor },
-			{ extend: "remove", editor: editor }
-		]
-	} );
 
-
-
-
+                                      $.ajax('http://yacback.redf4rth.net:8077/external', {
+                                              type: 'GET',
+                                              //data: JSON.stringify(data),
+                                              success: function(r) { 
+                                                      console.log('click2');
+                                                      //console.log(r);
+                                                      var tag = r.data[0].tag
+                                                      var en  = r.data[0].en
+                                                      var es  = r.data[0].es
+                                                      //var n = r.Status
+                                                      console.log(es);
+                                                      console.log(es);
+						      table.ajax.reload();
+						      console.log('I am leaving success now.');
+                                              },
+                                                error  : function() { console.log('cannot reach :8077');}
+                                      });
 
         });
 
@@ -161,7 +150,7 @@ $(document).ready(function() {
                 table.column( 3 ).visible( true );
         });
 
-
+	console.log("At the end of the event loop, I guess");
 
 } );
 

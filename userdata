@@ -47,7 +47,7 @@ cd scotSpryMedia
 npm start &
 
 cd ~
-git clone https://github.com/craigwongva/greendots-golang
+git clone -b mysql https://github.com/craigwongva/greendots-golang
 cd greendots-golang
 ./userdata/install
 
