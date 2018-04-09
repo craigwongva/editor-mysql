@@ -49,7 +49,7 @@ npm start &
 cd ~
 git clone -b mysql https://github.com/craigwongva/greendots-golang
 cd greendots-golang
-./userdata/install
+./userdata/install $2
 
 #http://yacback.redf4rth.net:8077/external
 #http://yacback.redf4rth.net:8081/simple/simple.html
