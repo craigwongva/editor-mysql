@@ -150,6 +150,24 @@ $(document).ready(function() {
                 table.column( 3 ).visible( true );
         });
 
+        $('.IterBtn').on('click', function() {
+
+table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+    var d = this.data();
+    if ( d.es == d.me ) {
+       d.es = "pickle";
+       this.data( d );
+       console.log(d.es + '/' + d.me); 
+       console.log(this.cells(this.index(),this.columns()[0]).data());
+    }
+} );
+ 
+// Draw once all updates are done
+table.draw();
+
+                console.log("Iter!");
+        });
+
 	console.log("At the end of the event loop, I guess");
 
 } );
@@ -163,6 +181,7 @@ $(document).ready(function() {
 		<section>
 			<button menu="LessBtn" class="LessBtn len4 btn" title="submit" data-code-m="sbm.submit"> Less </button>
 			<button menu="MoreBtn" class="MoreBtn len4 btn" title="submit" data-code-m="sbm.submit"> More </button>
+			<button menu="IterBtn" class="IterBtn len4 btn" title="submit" data-code-m="sbm.submit"> Iter </button>
 			<table id="example" class="display" cellspacing="0" width="100%">
 				<thead>
 					<tr>
