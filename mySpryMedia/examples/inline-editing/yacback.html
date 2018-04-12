@@ -58,7 +58,7 @@ $(document).ready(function() {
 
         "createdRow": function ( row, data, index ) {
             if ( data.me != ""  && data.es != data.me ) {
-                $('td', row).eq(2).addClass('highlight');
+                //succeeds: $('td', row).eq(2).addClass('highlight');
             } 
         },
 		dom: "Bfrtip",
@@ -158,29 +158,14 @@ $(document).ready(function() {
 
         $('.IterBtn').on('click', function() {
 
-table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-    var d = this.data();
-    if ( d.es == d.me ) {
-       //succeeds: d.es = "pickle";
-       this.data( d );
-       console.log(d.es + '/' + d.me); 
-       //The column number includes hidden columns:
-       console.log( table.cell( rowIdx, 0 ).data() );
-       console.log( table.cell( rowIdx, 1 ).data() );
-       console.log( table.cell( rowIdx, 2 ).data() );
-       console.log( table.cell( rowIdx, 3 ).data() );
-       //succeeds, but I haven't stopped to interpret it:console.log(this.cells(this.index(),this.columns()[0]).data());
-    }
-} );
- 
-// Draw once all updates are done
-table.draw();
-
-                console.log("Iter!");
+		table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+			var row = table.row( rowIdx );
+			var d = this.data();
+			if ( d.es != d.me && d.me != "") {
+				row.select();
+			}
+		} );
         });
-
-	console.log("At the end of the event loop, I guess");
-
 } );
 
 
