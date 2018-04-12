@@ -55,12 +55,13 @@ $(document).ready(function() {
 	} );
 
 	var table = $('#example').DataTable( {
-
+/* succeeds:
         "createdRow": function ( row, data, index ) {
             if ( data.me != ""  && data.es != data.me ) {
                 //succeeds: $('td', row).eq(2).addClass('highlight');
             } 
         },
+*/
 		dom: "Bfrtip",
 		ajax: "/snapi/yacback",
 		columns: [
@@ -84,19 +85,57 @@ $(document).ready(function() {
 		buttons: [
 			{ extend: "create", editor: editor },
 			{ extend: "edit",   editor: editor },
-			{ extend: "remove", editor: editor }
+			{ extend: "remove", editor: editor },
+			{ text: 'Less',
+				action: function ( e, dt, node, config ) {
+					dt.column( 0 ).visible( false );
+					dt.column( 1 ).visible( true );
+					dt.column( 2 ).visible( false );
+					dt.column( 3 ).visible( true );
+                                      $.ajax('http://yacback.redf4rth.net:8077/external', {
+                                              type: 'GET',
+                                              //data: JSON.stringify(data),
+                                              success: function(r) { 
+                                                      console.log('click234');
+                                                      //console.log(r);
+                                                      var tag = r.data[0].tag
+                                                      var en  = r.data[0].en
+                                                      var es  = r.data[0].es
+                                                      //var n = r.Status
+                                                      //console.log(es);
+                                                      //console.log(es);
+						      dt.ajax.reload();
+						      //console.log('I am leaving success now.');
+                                              },
+                                                error  : function() { console.log('cannot reach :8077');}
+                                      });
+            			}
+        		},
+			{ text: 'More',
+				action: function ( e, dt, node, config ) {
+                			dt.column( 0 ).visible( false );
+                			dt.column( 1 ).visible( true );
+                			dt.column( 2 ).visible( true );
+                			dt.column( 3 ).visible( true );
+            			}
+        		},
+			{ text: 'Compare',
+				action: function ( e, dt, node, config ) {
+					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+						var row = table.row( rowIdx );
+						var d = this.data();
+						if ( d.es != d.me && d.me != "") {
+							row.select();
+						}
+					} );
+            			}
+        		}
+
 		]
 	} );
 
 
         $('.LessBtn').on('click', function() {
-                console.log("Less!");
-
-                table.column( 0 ).visible( false );
-                table.column( 1 ).visible( true );
-                table.column( 2 ).visible( false );
-                table.column( 3 ).visible( true );
-
 /*
 //on click, show a table via Golang
                               var data = {};
@@ -128,43 +167,7 @@ $(document).ready(function() {
                                       });
 */
 
-                                      $.ajax('http://yacback.redf4rth.net:8077/external', {
-                                              type: 'GET',
-                                              //data: JSON.stringify(data),
-                                              success: function(r) { 
-                                                      console.log('click2');
-                                                      //console.log(r);
-                                                      var tag = r.data[0].tag
-                                                      var en  = r.data[0].en
-                                                      var es  = r.data[0].es
-                                                      //var n = r.Status
-                                                      console.log(es);
-                                                      console.log(es);
-						      table.ajax.reload();
-						      console.log('I am leaving success now.');
-                                              },
-                                                error  : function() { console.log('cannot reach :8077');}
-                                      });
 
-        });
-
-        $('.MoreBtn').on('click', function() {
-                console.log("More!");
-                table.column( 0 ).visible( false );
-                table.column( 1 ).visible( true );
-                table.column( 2 ).visible( true );
-                table.column( 3 ).visible( true );
-        });
-
-        $('.IterBtn').on('click', function() {
-
-		table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-			var row = table.row( rowIdx );
-			var d = this.data();
-			if ( d.es != d.me && d.me != "") {
-				row.select();
-			}
-		} );
         });
 } );
 
@@ -175,9 +178,6 @@ $(document).ready(function() {
 <body class="dt-example node">
 	<div class="container">
 		<section>
-			<button menu="LessBtn" class="LessBtn len4 btn" title="submit" data-code-m="sbm.submit"> Less </button>
-			<button menu="MoreBtn" class="MoreBtn len4 btn" title="submit" data-code-m="sbm.submit"> More </button>
-			<button menu="IterBtn" class="IterBtn len4 btn" title="submit" data-code-m="sbm.submit"> Iter </button>
 			<table id="example" class="display" cellspacing="0" width="100%">
 <!-- The <th> values are the headers on the table. -->
 <!--
