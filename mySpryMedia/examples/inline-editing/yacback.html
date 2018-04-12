@@ -37,8 +37,8 @@ $(document).ready(function() {
 		table: "#example",
 		fields: [ 
 			   {
-				label: "en",
-				name: "en"
+				label: "xxxxen",
+				name: "yyyen"
 			}, {
 				label: "es",
 				name: "es"
@@ -65,7 +65,7 @@ $(document).ready(function() {
 		ajax: "/snapi/yacback",
 		columns: [
 			{ data: "rn" , "visible": false },
-			{ data: "en" },
+			{ data: "en" }, //This string is used to get the actual database column.
 			{ data: "es" },
 			{ data: "me" },
 		],
@@ -179,6 +179,20 @@ $(document).ready(function() {
 			<button menu="MoreBtn" class="MoreBtn len4 btn" title="submit" data-code-m="sbm.submit"> More </button>
 			<button menu="IterBtn" class="IterBtn len4 btn" title="submit" data-code-m="sbm.submit"> Iter </button>
 			<table id="example" class="display" cellspacing="0" width="100%">
+<!-- The <th> values are the headers on the table. -->
+<!--
+				<thead>
+					<tr>
+						<th>rn</th>
+						<th>aaaaen</th>
+ 						<th>es</th>
+						<th>me</th>
+					</tr>
+				</thead>
+-->
+			</table>
+			<table id="example2" class="display" cellspacing="0" width="100%">
+<!--
 				<thead>
 					<tr>
 						<th>rn</th>
@@ -188,15 +202,7 @@ $(document).ready(function() {
 					</tr>
 				</thead>
 			</table>
-			<table id="example2" class="display" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th>rn</th>
-						<th>en</th>
-						<th>es</th>
-						<th>me</th>
-					</tr>
-				</thead>
+-->
 		</section>
 	</div>
 </body>
