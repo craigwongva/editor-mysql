@@ -32,6 +32,8 @@ var editor; // use a global for the submit and return data rendering in the exam
 
 $(document).ready(function() {
 
+	var mytoggle = 0;
+
 	editor = new $.fn.dataTable.Editor( {
 		ajax: "/snapi/yacback",
 		table: "#example",
@@ -86,37 +88,30 @@ $(document).ready(function() {
 			{ extend: "create", editor: editor },
 			{ extend: "edit",   editor: editor },
 			{ extend: "remove", editor: editor },
-			{ text: 'Less',
+			{ text: 'Scramble',
 				action: function ( e, dt, node, config ) {
-					dt.column( 0 ).visible( false );
-					dt.column( 1 ).visible( true );
-					dt.column( 2 ).visible( false );
-					dt.column( 3 ).visible( true );
                                       $.ajax('http://yacback.redf4rth.net:8077/external', {
                                               type: 'GET',
                                               //data: JSON.stringify(data),
                                               success: function(r) { 
                                                       console.log('click234');
-                                                      //console.log(r);
                                                       var tag = r.data[0].tag
                                                       var en  = r.data[0].en
                                                       var es  = r.data[0].es
-                                                      //var n = r.Status
-                                                      //console.log(es);
-                                                      //console.log(es);
 						      dt.ajax.reload();
-						      //console.log('I am leaving success now.');
                                               },
                                                 error  : function() { console.log('cannot reach :8077');}
                                       });
             			}
         		},
-			{ text: 'More',
+			{ text: 'Toggle',
 				action: function ( e, dt, node, config ) {
-                			dt.column( 0 ).visible( false );
-                			dt.column( 1 ).visible( true );
-                			dt.column( 2 ).visible( true );
-                			dt.column( 3 ).visible( true );
+					if (mytoggle % 2 == 0) {
+						dt.column( 2 ).visible( false );
+					} else {
+                				dt.column( 2 ).visible( true );
+					}
+					mytoggle = mytoggle + 1;
             			}
         		},
 			{ text: 'Compare',
