@@ -66,6 +66,8 @@ $(document).ready(function() {
 */
 		dom: "Bfrtip",
 		ajax: "/snapi/yacback",
+		pagingType: "simple",
+		info: false,
 		columns: [
 			{ data: "rn" , "visible": false },
 			{ data: "en" }, //This string is used to get the actual database column.
@@ -92,9 +94,7 @@ $(document).ready(function() {
 				action: function ( e, dt, node, config ) {
                                       $.ajax('http://yacback.redf4rth.net:8077/external', {
                                               type: 'GET',
-                                              //data: JSON.stringify(data),
                                               success: function(r) { 
-                                                      console.log('click234');
                                                       var tag = r.data[0].tag
                                                       var en  = r.data[0].en
                                                       var es  = r.data[0].es
