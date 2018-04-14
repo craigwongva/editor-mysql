@@ -53,7 +53,7 @@ INSERT INTO `yacback` (`tag`, `en`, `es`, `me`)
 ( '3m', 'are not profitable for them',  'no les convienen', ''),
 ( '4g', 'the bare truth',       'la estricta verdad', ''),
 ( '3a', 'a week ago',   'hace una semana', ''),
-( '3k', 'when I get psychoanalyzed',    'cuanda me haga un psicoanálisis', ''),
+( '3k', 'when I get psychoanalyzed',    'cuando me haga un psicoanálisis', ''),
 ( '3i', 'in a shoebox', 'en una caja de zapatos', ''),
 ( '4d', 'has been a long one for me',   'ha sido larga para mí', ''),
 ( '3o', 'in my backpack',       'en mi mochila', ''),
