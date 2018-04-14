@@ -67,6 +67,7 @@ $(document).ready(function() {
 		dom: "Bfrtip",
 		ajax: "/snapi/yacback",
 		pagingType: "simple",
+		pageLength: 15,
 		info: false,
 		columns: [
 			{ data: "rn" , "visible": false },
@@ -98,11 +99,17 @@ $(document).ready(function() {
                                                       var tag = r.data[0].tag
                                                       var en  = r.data[0].en
                                                       var es  = r.data[0].es
-						      dt.ajax.reload();
+						      dt.ajax.reload( function ( json ) {
+							$('#example tbody tr:first-child td:last-child').click();
+						      });
                                               },
                                                 error  : function() { console.log('cannot reach :8077');}
                                       });
-            			}
+					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+						var row = table.row( rowIdx );
+						row.deselect();
+					} );
+				}
         		},
 			{ text: 'Toggle',
 				action: function ( e, dt, node, config ) {
