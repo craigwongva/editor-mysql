@@ -126,7 +126,10 @@ $(document).ready(function() {
 					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
 						var row = table.row( rowIdx );
 						var d = this.data();
+						row.deselect();
 						if ( d.es != d.me && d.me != "") {
+							console.log( d.es );
+							console.log( d.me );
 							row.select();
 						}
 					} );
