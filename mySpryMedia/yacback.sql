@@ -175,3 +175,5 @@ INSERT INTO `yacback` (`tag`, `en`, `es`, `me`)
 ( '4v', 'and I wouldnZZZt be me',       'y yo no sería yo', ''),
 ( '4v', 'but rather a very different Chilean girl',     'sino una joven chilena muy diferente', '');
 UPDATE yacback SET en = replace(en, 'ZZZ', "'");
+
+CREATE TABLE serversideyacback AS SELECT * FROM yacback;
