@@ -67,28 +67,26 @@ $(document).ready(function() {
 	} );
 
 	editor.on( 'preSubmit', function( e, payload, action ) {
-		console.log("presubmit")
-		console.log( payload )
+		//Send the clickedRow to the server but now we know that's not really needed
 		payload.craig = clickedRow
-		console.log( payload.data )
+	} );
+	editor.on( 'postSubmit', function( e, payload, action ) {
+		//Here somehow put the focus on the next row.
+		console.log("postsubmit " + clickedRow)
+		//$('#example tbody tr:first-child td:last-child').click();
+		clickedRowPlusOne = clickedRow + 1;
+		if (clickedRowPlusOne == 11) {
+			console.log("looping upward");
+			clickedRowPlusOne = 1;
+		}
+		$('#example tbody tr:nth-child(' + clickedRowPlusOne + ') td:last-child').click();
 	} );
 
 	var table = $('#example').DataTable( {
-/* succeeds:
-        "createdRow": function ( row, data, index ) {
-            if ( data.me != ""  && data.es != data.me ) {
-                //succeeds: $('td', row).eq(2).addClass('highlight');
-            } 
-        },
-*/
 		dom: "Bfrtip",
-		//ajax: "/snapi/yacback",
                 ajax: {
 			url: "http://yacback.redf4rth.net:8077/external",
 			type: "POST",
-//			"data": {
-//				"user_id": 451
-//			}
 		},
 	        serverSide: true,
 		pagingType: "simple",
@@ -187,44 +185,7 @@ table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
 })
 
 })
-
-        $('.LessBtn').on('click', function() {
-/*
-//on click, show a table via Golang
-                              var data = {};
-                                      data.title = "title";
-                                      data.message = "message";
-
-                                      $.ajax('http://yacback.redf4rth.net:8077/external', {
-                                              type: 'GET',
-                                              //data: JSON.stringify(data),
-                                              success: function(r) { 
-                                                      console.log('success');
-                                                      console.log(r);
-                                                      var tag = r.data[0].tag
-                                                      var en  = r.data[0].en
-                                                      var es  = r.data[0].es
-                                                      //var n = r.Status
-                                                      console.log(es);
-                                                      //console.log(n);
-
-                                              $('#example2').dataTable( {
-                                                  "data": [
-                                                      //[ "CAR", "maya means charm, illusion, dream", "maya significa hechizo, ilusión, dream" ]
-                                                      [ en, es ]
-                                                  ]
-                                              } );
-
-                                              },
-                                                error  : function() { console.log('error');}
-                                      });
-*/
-
-
-        });
 } );
-
-
 
 	</script>
 </head>
