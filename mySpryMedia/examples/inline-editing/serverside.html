@@ -33,6 +33,7 @@ var editor; // use a global for the submit and return data rendering in the exam
 $(document).ready(function() {
 
 	var mytoggle = 0;
+	var clickedRow;
 
 	editor = new $.fn.dataTable.Editor( {
 		//ajax: "/snapi/yacback",
@@ -41,7 +42,7 @@ $(document).ready(function() {
 			url: "http://yacback.redf4rth.net:8077/external",
 			type: "POST",
 			"data": {
-				"user_id": 452
+				"user_id": Date.now()
 			}
 		},
 		table: "#example",
@@ -63,6 +64,13 @@ $(document).ready(function() {
 				onBlur: 'submit'
 			}
 		}
+	} );
+
+	editor.on( 'preSubmit', function( e, payload, action ) {
+		console.log("presubmit")
+		console.log( payload )
+		payload.craig = clickedRow
+		console.log( payload.data )
 	} );
 
 	var table = $('#example').DataTable( {
@@ -161,7 +169,24 @@ $(document).ready(function() {
 
 		]
 	} );
+$('#example tbody').on( 'click', 'td', function () {
+        console.log("hello12")
+var tr = $(this).closest('tr');
+var row = table.row( tr );
+console.log(row.data().rn);
+var i = 0;
+table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+	i++;
+	var row2 = table.row( rowIdx );
+	var d = this.data();
+	console.log( d.rn );
+	if ( d.rn == row.data().rn ) {
+		console.log( "found a match at " + i);
+		clickedRow = i
+	}
+})
 
+})
 
         $('.LessBtn').on('click', function() {
 /*
