@@ -167,25 +167,46 @@ $(document).ready(function() {
 
 		]
 	} );
-$('#example tbody').on( 'click', 'td', function () {
-        console.log("hello12")
-var tr = $(this).closest('tr');
-var row = table.row( tr );
-console.log(row.data().rn);
-var i = 0;
-table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-	i++;
-	var row2 = table.row( rowIdx );
-	var d = this.data();
-	console.log( d.rn );
-	if ( d.rn == row.data().rn ) {
-		console.log( "found a match at " + i);
-		clickedRow = i
-	}
-})
 
+table.on( 'key-blur', function( e, datatable, cell, originalEvent ) {
+	console.log("key-focus");
+	var row = datatable.row( cell.index().row )
+	var i = 0;
+	datatable.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+		i++;
+		var row2 = datatable.row( rowIdx );
+		var d = this.data();
+		if ( d.rn == row.data().rn ) {
+			console.log( "key-blur found a match at " + i);
+			clickedRow = i
+		}
+	})
+
+		clickedRowPlusOne = clickedRow + 1;
+		if (clickedRowPlusOne == 11) {
+			console.log("looping upward via key-blur");
+			clickedRowPlusOne = 1;
+		}
+		$('#example tbody tr:nth-child(' + clickedRowPlusOne + ') td:last-child').click();
+
+});
+/* works:
+$('#example tbody').on( 'click', 'td', function () {
+	var tr = $(this).closest('tr');
+	var row = table.row( tr );
+	var i = 0;
+	table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+		i++;
+		var row2 = table.row( rowIdx );
+		var d = this.data();
+		if ( d.rn == row.data().rn ) {
+			console.log( "click found a match at " + i);
+			clickedRow = i
+		}
+	})
 })
-} );
+*/
+});
 
 	</script>
 </head>
