@@ -116,7 +116,7 @@ $(document).ready(function() {
 			{ extend: "remove", editor: editor },
 			{ text: 'Scramble',
 				action: function ( e, dt, node, config ) {
-                                      $.ajax('http://yacback.redf4rth.net:8077/external', {
+                                      $.ajax('http://yacback.redf4rth.net:8077/scramble', {
                                               type: 'GET',
                                               success: function(r) { 
 						      console.log( r );
