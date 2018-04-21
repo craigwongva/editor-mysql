@@ -131,6 +131,13 @@ $(document).ready(function() {
 		]
 	} );
 
+	//Remove the 'previous' and 'next' links.
+	table.on( 'draw', function () {
+		$(table.table().container())
+			.find('a.previous, a.next')
+			.css( 'display', 'none' ) 
+	} );
+
 	table.on( 'key-blur', function( e, datatable, cell, originalEvent ) {
 		var row = datatable.row( cell.index().row )
 		var i = 0;
@@ -149,6 +156,7 @@ $(document).ready(function() {
 		}
 		$('#example tbody tr:nth-child(' + clickedRowPlusOne + ') td:last-child').click();
 	});
+
 
 });
 
