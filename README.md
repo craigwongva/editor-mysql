@@ -37,3 +37,5 @@ drop database editordb;
 cd ~/editor-mysql/scotSpryMedia
 node index.js
 ```
+
+http://yacback.redf4rth.net:8081/inline-editing/yacback.html
