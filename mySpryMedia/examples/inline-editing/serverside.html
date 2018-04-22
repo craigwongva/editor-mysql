@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 	editor = new $.fn.dataTable.Editor( {
                 ajax: {
-			url: "http://yacback.redf4rth.net:8077/external",
+			url: "http://yacback.redf4rth.net:8077/editor",
 			type: "POST"
 		},
 		table: "#example",
@@ -56,7 +56,7 @@ $(document).ready(function() {
 	var table = $('#example').DataTable( {
 		dom: "Bfrtip",
                 ajax: {
-			url: "http://yacback.redf4rth.net:8077/external",
+			url: "http://yacback.redf4rth.net:8077/datatable",
 			type: "POST",
 		},
 	        serverSide: true,
