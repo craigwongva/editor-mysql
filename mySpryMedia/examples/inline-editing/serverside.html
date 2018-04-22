@@ -88,7 +88,7 @@ $(document).ready(function() {
 				action: function ( e, dt, node, config ) {
 					//scramble re-orders the table rows,
 					// then calls /external to get the rows
-					$.ajax('http://yacback.redf4rth.net:8077/scramble', {
+					$.ajax('http://yacback.redf4rth.net:8077/randomizeEntireDatabase', {
 						type: 'GET',
 						success: function(r) { 
 							dt.ajax.reload( function ( json ) {
