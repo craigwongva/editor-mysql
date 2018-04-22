@@ -179,5 +179,4 @@ INSERT INTO `yacback` (`tag`, `en`, `es`, `me`)
 UPDATE yacback SET en = replace(en, 'ZZZ', "'");
 
 CREATE TABLE serversideyacback AS SELECT * FROM yacback;
-CREATE TRIGGER mytrigger BEFORE UPDATE on serversideyacback FOR EACH ROW SET new.triggers = old.triggers+1, new.correct = old.correct + CASE WHEN new.me = old.es THEN 1 ELSE 0 END;
-
+CREATE TRIGGER mytrigger BEFORE UPDATE on serversideyacback FOR EACH ROW SET new.triggers = old.triggers + CASE WHEN new.rn = old.rn AND new.me <> old.me THEN 1 ELSE 0 END, new.correct = old.correct + CASE WHEN new.rn = old.rn AND new.me = old.es THEN 1 ELSE 0 END; 
