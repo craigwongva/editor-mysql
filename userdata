@@ -16,6 +16,7 @@ echo "create database editordb" | mysql --host=$1 --user=editoruser --password=$
 mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/mySpryMedia/mysql.sql
 #Hide next line to keep old database content
 #mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/mySpryMedia/yacback.sql
+mysql editordb --host=$1 --user=editoruser --password=$2 < ~/editor-mysql/mySpryMedia/procs
 
 #Install NodeJS
 # See https://stackoverflow.com/questions/42749326/installing-node-7-on-centos-machine:

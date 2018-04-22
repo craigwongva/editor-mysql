@@ -178,5 +178,11 @@ INSERT INTO `yacback` (`tag`, `en`, `es`, `me`)
 ( '4v', 'but rather a very different Chilean girl',     'sino una joven chilena muy diferente', '');
 UPDATE yacback SET en = replace(en, 'ZZZ', "'");
 
+DROP TABLE IF EXISTS serversideyacback;
 CREATE TABLE serversideyacback AS SELECT * FROM yacback;
+ALTER TABLE serversideyacback ADD correct INT NOT NULL DEFAULT 0;
+ALTER TABLE serversideyacback ADD triggers INT NOT NULL DEFAULT 0;
+ALTER TABLE serversideyacback ADD hot BOOLEAN NOT NULL DEFAULT false;
 CREATE TRIGGER mytrigger BEFORE UPDATE on serversideyacback FOR EACH ROW SET new.triggers = old.triggers + CASE WHEN new.rn = old.rn AND new.me <> old.me THEN 1 ELSE 0 END, new.correct = old.correct + CASE WHEN new.rn = old.rn AND new.me = old.es THEN 1 ELSE 0 END; 
+DROP TABLE IF EXISTS hotserverside;
+CREATE TABLE hotserverside (id INT NOT NULL);
