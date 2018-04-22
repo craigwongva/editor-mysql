@@ -1,3 +1,13 @@
+--The hotserverside table is necessary because MySQL doesn't yet support:
+--UPDATE serversideyacback SET hot = true
+--WHERE id in (
+-- SELECT id
+-- FROM serversideyacback
+-- ORDER BY rn
+-- LIIT 10);
+--ERROR 1235 (42000): This version of MySQL doesn't yet support 'LIMIT &
+-- IN/ALL/ANY/SOME subquery'
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS heatAndScrambleAnyTenRows//
 CREATE PROCEDURE heatAndScrambleAnyTenRows()
