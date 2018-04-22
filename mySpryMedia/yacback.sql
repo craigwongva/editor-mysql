@@ -20,6 +20,8 @@ CREATE TABLE `yacback` (
     `en` varchar(100) NOT NULL default '',
     `es` varchar(100) NOT NULL default '',
     `me` varchar(100) NOT NULL default '',
+    `correct`  int NOT NULL default 0,
+    `triggers` int NOT NULL default 0,
     PRIMARY KEY (`id`)
 );
 
@@ -177,3 +179,5 @@ INSERT INTO `yacback` (`tag`, `en`, `es`, `me`)
 UPDATE yacback SET en = replace(en, 'ZZZ', "'");
 
 CREATE TABLE serversideyacback AS SELECT * FROM yacback;
+CREATE TRIGGER mytrigger BEFORE UPDATE on serversideyacback FOR EACH ROW SET new.triggers = old.triggers+1, new.correct = old.correct + CASE WHEN new.me = old.es THEN 1 ELSE 0 END;
+

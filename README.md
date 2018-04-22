@@ -38,4 +38,6 @@ cd ~/editor-mysql/scotSpryMedia
 node index.js
 ```
 
+http://yacback.redf4rth.net:8081/inline-editing/serverside.html
+http://yacback.redf4rth.net:8081/inline-editing/mytab.html
 http://yacback.redf4rth.net:8081/inline-editing/yacback.html
