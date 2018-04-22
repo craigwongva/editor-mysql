@@ -1,0 +1,17 @@
+DELIMITER //
+DROP PROCEDURE IF EXISTS heatAndScrambleAnyTenRows//
+CREATE PROCEDURE heatAndScrambleAnyTenRows()
+BEGIN
+        UPDATE serversideyacback SET rn = rand();
+        TRUNCATE TABLE hotserverside;
+        INSERT INTO hotserverside SELECT id FROM serversideyacback ORDER BY rn LIMIT 10;
+        UPDATE serversideyacback SET hot = false;
+        UPDATE serversideyacback SET hot = true WHERE id IN (SELECT id FROM hotserverside);
+END //
+
+DROP PROCEDURE IF EXISTS heatAndScrambleSameTenRows//
+CREATE PROCEDURE heatAndScrambleSameTenRows()
+BEGIN
+        UPDATE serversideyacback SET rn = rand(), me = '' WHERE hot = true;
+END //
+DELIMITER ;
