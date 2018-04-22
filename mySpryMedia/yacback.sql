@@ -61,7 +61,7 @@ INSERT INTO `yacback` (`tag`, `en`, `es`, `me`)
 ( '3o', 'in my backpack',       'en mi mochila', ''),
 ( '3a', 'I should not get in touch with anyone I knew', 'no me comunicara con nadie conocido', ''),
 ( '3a', 'at the airport',       'en el aeropuerto', ''),
-( '3d', 'from the age of eight',        'desde los ochos años', ''),
+( '3d', 'from the age of eight',        'desde los ocho años', ''),
 ( '4i', 'it will gradually straighten out',     'se irá enderezando', ''),
 ( '4l', 'since some sort of order is required', 'ya algun orden se requiere', ''),
 ( '3h', 'my grandfather kept them',     'mi abuelo guardaba', ''),
