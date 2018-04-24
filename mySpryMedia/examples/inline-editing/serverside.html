@@ -92,7 +92,11 @@ $(document).ready(function() {
 						type: 'GET',
 						success: function(r) { 
 							dt.ajax.reload( function ( json ) {
-							$('#example tbody tr:first-child td:last-child').click();
+
+								dt.column( 2 ).visible( false );
+								mytoggle = 1;
+
+								$('#example tbody tr:first-child td:last-child').click();
 						});
 					},
 					error: function( ) { console.log('not successful calling :8077/getSameTenRows'); }
@@ -111,27 +115,27 @@ $(document).ready(function() {
 						type: 'GET',
 						success: function(r) { 
 							dt.ajax.reload( function ( json ) {
-							$('#example tbody tr:first-child td:last-child').click();
-						});
-					},
-					error: function( ) { console.log('not successful calling :8077/getAnyTenRows'); }
+								$('#example tbody tr:first-child td:last-child').click();
+							});
+						},
+						error: function( ) { console.log('not successful calling :8077/getAnyTenRows'); }
 					});
 					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
 						var row = table.row( rowIdx );
 						row.deselect();
 					} );
 				}
-        		},
+        	},
 			{ text: 'Toggle',
 				action: function ( e, dt, node, config ) {
 					if (mytoggle % 2 == 0) {
 						dt.column( 2 ).visible( false );
 					} else {
-                				dt.column( 2 ).visible( true );
+                		dt.column( 2 ).visible( true );
 					}
 					mytoggle = mytoggle + 1;
-            			}
-        		},
+            	}
+        	},
 			{ text: 'Compare',
 				action: function ( e, dt, node, config ) {
 					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
@@ -143,10 +147,9 @@ $(document).ready(function() {
 							console.log( d.me );
 							row.select();
 						}
-					} );
-            			}
-        		}
-
+					});
+            	}
+        	}
 		]
 	} );
 

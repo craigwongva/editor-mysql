@@ -63,7 +63,7 @@ $('#example tbody').on( 'click', 'td', function () {
 
 gofmt -w yourcode.go
 
-drop trigger mytrigger;
-CREATE TRIGGER mytrigger BEFORE UPDATE on serversideyacback FOR EACH ROW SET new.triggers = old.triggers+1, new.correct = old.correct + CASE WHEN new.me = old.es THEN 1 ELSE 0 END;
-update serversideyacback set me = 'me resulta propuesto7' where es = 'me resulta complicado';
+--
+mysql> UPDATE serversideyacback SET hot = true WHERE id in (SELECT id FROM serversideyacback ORDER BY rn LIMIT 10);                                                         
+ERROR 1235 (42000): This version of MySQL doesn't yet support 'LIMIT & IN/ALL/ANY/SOME subquery'
 
