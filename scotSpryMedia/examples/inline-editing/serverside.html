@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+	<title>Yacback</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="../../css/editor.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="../resources/syntax/shCore.css">
+	<link rel="stylesheet" type="text/css" href="../resources/demo.css">
+	<link rel="stylesheet" type="text/css" href="yacback.css">
+	<style type="text/css" class="init">
+	
+	</style>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.2.5/js/dataTables.select.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/keytable/2.3.2/js/dataTables.keyTable.min.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/dataTables.editor.min.js"></script>
+	<script type="text/javascript" language="javascript" src="../resources/syntax/shCore.js"></script>
+	<script type="text/javascript" language="javascript" src="../resources/demo.js"></script>
+	<script type="text/javascript" language="javascript" src="../resources/editor-demo.js"></script>
+	<script type="text/javascript" language="javascript" class="init">
+	
+var editor;
+
+$(document).ready(function() {
+
+	var mytoggle = 0;
+	var clickedRow;
+
+	editor = new $.fn.dataTable.Editor( {
+                ajax: {
+			url: "http://yacback.redf4rth.net:8077/editor",
+			type: "POST"
+		},
+		table: "#example",
+		fields: [ 
+			   {
+				label: "en",
+				name: "en"
+			}, {
+				label: "es",
+				name: "es"
+			}, {
+				label: "me",
+				name: "me"
+			}
+		]
+	} );
+
+	var table = $('#example').DataTable( {
+		dom: "Bfrtip",
+                ajax: {
+			url: "http://yacback.redf4rth.net:8077/datatable",
+			type: "POST",
+		},
+	        serverSide: true,
+		pagingType: "simple", //Hides next and previous page absolute page numbers
+		info: false,
+		columns: [
+			{ data: "rn" , "visible": false },
+			{ data: "en" },
+			{ data: "es" },
+			{ data: "me" },
+		],
+		order: [ 0, 'asc' ],
+		keys: {
+			//columns: ':not(:first-child)',
+			columns: ':last-child',
+			keys: [ 9 ], //9 means ^I
+			editor: editor,
+			editOnFocus: true
+		},
+		select: {
+			style:    'os',
+			selector: 'td:first-child'
+		},
+		buttons: [
+			{ extend: "create", editor: editor },
+			{ extend: "edit",   editor: editor },
+			{ extend: "remove", editor: editor },
+			{ text: 'Same 10',
+				action: function ( e, dt, node, config ) {
+					//scramble re-orders the table rows,
+					// then calls /external to get the rows
+					$.ajax('http://yacback.redf4rth.net:8077/getSameTenRows', {
+						type: 'GET',
+						success: function(r) { 
+							dt.ajax.reload( function ( json ) {
+
+								dt.column( 2 ).visible( false );
+								mytoggle = 1;
+
+								$('#example tbody tr:first-child td:last-child').click();
+						});
+					},
+					error: function( ) { console.log('not successful calling :8077/getSameTenRows'); }
+					});
+					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+						var row = table.row( rowIdx );
+						row.deselect();
+					} );
+				}
+        		},
+			{ text: 'Any 10',
+				action: function ( e, dt, node, config ) {
+					//scramble re-orders the table rows,
+					// then calls /external to get the rows
+					$.ajax('http://yacback.redf4rth.net:8077/getAnyTenRows', {
+						type: 'GET',
+						success: function(r) { 
+							dt.ajax.reload( function ( json ) {
+								$('#example tbody tr:first-child td:last-child').click();
+							});
+						},
+						error: function( ) { console.log('not successful calling :8077/getAnyTenRows'); }
+					});
+					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+						var row = table.row( rowIdx );
+						row.deselect();
+					} );
+				}
+        	},
+			{ text: 'Toggle',
+				action: function ( e, dt, node, config ) {
+					if (mytoggle % 2 == 0) {
+						dt.column( 2 ).visible( false );
+					} else {
+                		dt.column( 2 ).visible( true );
+					}
+					mytoggle = mytoggle + 1;
+            	}
+        	},
+			{ text: 'Compare',
+				action: function ( e, dt, node, config ) {
+					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+						var row = table.row( rowIdx );
+						var d = this.data();
+						row.deselect();
+						if ( !d.es.match(  d.me ) && d.me != "") {
+							console.log( d.es );
+							console.log( d.me );
+							row.select();
+						}
+					});
+								dt.column( 2 ).visible( true );
+								mytoggle = 0;					
+            	}
+        	}
+		]
+	} );
+
+	//Remove the 'previous' and 'next' links.
+	table.on( 'draw', function () {
+		$(table.table().container())
+			.find('a.previous, a.next')
+			.css( 'display', 'none' ) 
+	} );
+
+	table.on( 'key-blur', function( e, datatable, cell, originalEvent ) {
+		var row = datatable.row( cell.index().row )
+		var i = 0;
+		datatable.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+			i++;
+			var row2 = datatable.row( rowIdx );
+			var d = this.data();
+			if ( d.rn == row.data().rn ) {
+				clickedRow = i
+			}
+		})
+	
+		clickedRowPlusOne = clickedRow + 1;
+		if (clickedRowPlusOne == 11) {
+			clickedRowPlusOne = 1;
+		}
+		$('#example tbody tr:nth-child(' + clickedRowPlusOne + ') td:last-child').click();
+	});
+
+
+});
+
+	</script>
+</head>
+<body class="dt-example node">
+	<div class="container">
+		<section>
+			<table id="example" class="display" cellspacing="0" width="100%">
+			</table>
+
+		</section>
+	</div>
+</body>
+</html>
