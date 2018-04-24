@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Yacback</title>
+	<title>Editor</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css">
@@ -25,8 +25,6 @@
 	<script type="text/javascript" language="javascript" src="../resources/demo.js"></script>
 	<script type="text/javascript" language="javascript" src="../resources/editor-demo.js"></script>
 	<script type="text/javascript" language="javascript" class="init">
-	
-
 
 var editor; // use a global for the submit and return data rendering in the examples
 
@@ -38,16 +36,22 @@ $(document).ready(function() {
 		ajax: "/snapi/yacback",
 		table: "#example",
 		fields: [ 
-			   {
-				label: "xxxxen",
-				name: "yyyen"
-			}, {
+			{
+				label: "tag",
+				name: "tag"
+			}, 
+			{
+				label: "en",
+				name: "en"
+			}, 
+			{
 				label: "es",
 				name: "es"
-			}, {
-				label: "me",
-				name: "me"
-			}
+			} 
+//			{
+//				label: "me",
+//				name: "me"
+//			}
 		],
 		formOptions: {
 			inline: {
@@ -57,23 +61,17 @@ $(document).ready(function() {
 	} );
 
 	var table = $('#example').DataTable( {
-/* succeeds:
-        "createdRow": function ( row, data, index ) {
-            if ( data.me != ""  && data.es != data.me ) {
-                //succeeds: $('td', row).eq(2).addClass('highlight');
-            } 
-        },
-*/
+
 		dom: "Bfrtip",
 		ajax: "/snapi/yacback",
 		pagingType: "simple",
 		pageLength: 15,
 		info: false,
 		columns: [
-			{ data: "rn" , "visible": false },
+			{ data: "rn" , "visible": false }, //This line can be deleted, but then Editor returns row in alpha (boring) order.
+			{ data: "tag" },
 			{ data: "en" }, //This string is used to get the actual database column.
-			{ data: "es" },
-			{ data: "me" },
+			{ data: "es" }
 		],
 		order: [ 0, 'asc' ],
 		keys: {
@@ -90,93 +88,10 @@ $(document).ready(function() {
 		buttons: [
 			{ extend: "create", editor: editor },
 			{ extend: "edit",   editor: editor },
-			{ extend: "remove", editor: editor },
-			{ text: 'Scramble',
-				action: function ( e, dt, node, config ) {
-                                      $.ajax('http://yacback.redf4rth.net:8077/external', {
-                                              type: 'GET',
-                                              success: function(r) { 
-                                                      var tag = r.data[0].tag
-                                                      var en  = r.data[0].en
-                                                      var es  = r.data[0].es
-						      dt.ajax.reload( function ( json ) {
-							$('#example tbody tr:first-child td:last-child').click();
-						      });
-                                              },
-                                                error  : function() { console.log('cannot reach :8077');}
-                                      });
-					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-						var row = table.row( rowIdx );
-						row.deselect();
-					} );
-				}
-        		},
-			{ text: 'Toggle',
-				action: function ( e, dt, node, config ) {
-					if (mytoggle % 2 == 0) {
-						dt.column( 2 ).visible( false );
-					} else {
-                				dt.column( 2 ).visible( true );
-					}
-					mytoggle = mytoggle + 1;
-            			}
-        		},
-			{ text: 'Compare',
-				action: function ( e, dt, node, config ) {
-					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-						var row = table.row( rowIdx );
-						var d = this.data();
-						row.deselect();
-						if ( !d.es.match(  d.me ) && d.me != "") {
-							console.log( d.es );
-							console.log( d.me );
-							row.select();
-						}
-					} );
-            			}
-        		}
-
+			{ extend: "remove", editor: editor }
 		]
 	} );
-
-
-        $('.LessBtn').on('click', function() {
-/*
-//on click, show a table via Golang
-                              var data = {};
-                                      data.title = "title";
-                                      data.message = "message";
-
-                                      $.ajax('http://yacback.redf4rth.net:8077/external', {
-                                              type: 'GET',
-                                              //data: JSON.stringify(data),
-                                              success: function(r) { 
-                                                      console.log('success');
-                                                      console.log(r);
-                                                      var tag = r.data[0].tag
-                                                      var en  = r.data[0].en
-                                                      var es  = r.data[0].es
-                                                      //var n = r.Status
-                                                      console.log(es);
-                                                      //console.log(n);
-
-                                              $('#example2').dataTable( {
-                                                  "data": [
-                                                      //[ "CAR", "maya means charm, illusion, dream", "maya significa hechizo, ilusión, dream" ]
-                                                      [ en, es ]
-                                                  ]
-                                              } );
-
-                                              },
-                                                error  : function() { console.log('error');}
-                                      });
-*/
-
-
-        });
 } );
-
-
 
 	</script>
 </head>
@@ -184,30 +99,7 @@ $(document).ready(function() {
 	<div class="container">
 		<section>
 			<table id="example" class="display" cellspacing="0" width="100%">
-<!-- The <th> values are the headers on the table. -->
-<!--
-				<thead>
-					<tr>
-						<th>rn</th>
-						<th>aaaaen</th>
- 						<th>es</th>
-						<th>me</th>
-					</tr>
-				</thead>
--->
 			</table>
-			<table id="example2" class="display" cellspacing="0" width="100%">
-<!--
-				<thead>
-					<tr>
-						<th>rn</th>
-						<th>en</th>
-						<th>es</th>
-						<th>me</th>
-					</tr>
-				</thead>
-			</table>
--->
 		</section>
 	</div>
 </body>

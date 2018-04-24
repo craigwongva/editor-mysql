@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Yacback</title>
+	<title>Serverside</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css">
@@ -81,9 +81,6 @@ $(document).ready(function() {
 			selector: 'td:first-child'
 		},
 		buttons: [
-			{ extend: "create", editor: editor },
-			{ extend: "edit",   editor: editor },
-			{ extend: "remove", editor: editor },
 			{ text: 'Same 10',
 				action: function ( e, dt, node, config ) {
 					//scramble re-orders the table rows,
