@@ -67,3 +67,23 @@ gofmt -w yourcode.go
 mysql> UPDATE serversideyacback SET hot = true WHERE id in (SELECT id FROM serversideyacback ORDER BY rn LIMIT 10);                                                         
 ERROR 1235 (42000): This version of MySQL doesn't yet support 'LIMIT & IN/ALL/ANY/SOME subquery'
 
+--
+To run after restarting Cloud9:
+
+
+from console:
+update Route53's yacback (s/m: do this from command line)
+
+from terminal 1:
+aws rds start-db-instance --db-instance-identifier editordb
+cd scotSpryMedia
+nvm use 7
+npm start
+
+from terminal 2:
+cd greendots-golang/
+export GOROOT=/usr/local/go
+export GOPATH=/home/ec2-user/environment/greendots-golang/
+export PATH=$PATH:$GOROOT/bin
+go install yacback
+./bin/yacback <password>
