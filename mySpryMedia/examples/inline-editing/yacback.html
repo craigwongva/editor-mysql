@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Editor</title>
+	<title>Administrator</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css">
@@ -26,11 +26,9 @@
 	<script type="text/javascript" language="javascript" src="../resources/editor-demo.js"></script>
 	<script type="text/javascript" language="javascript" class="init">
 
-var editor; // use a global for the submit and return data rendering in the examples
+var editor; 
 
 $(document).ready(function() {
-
-	var mytoggle = 0;
 
 	editor = new $.fn.dataTable.Editor( {
 		ajax: "/snapi/yacback",
@@ -70,13 +68,13 @@ $(document).ready(function() {
 		columns: [
 			{ data: "rn" , "visible": false }, //This line can be deleted, but then Editor returns row in alpha (boring) order.
 			{ data: "tag" },
-			{ data: "en" }, //This string is used to get the actual database column.
+			{ data: "en" }, 
 			{ data: "es" }
 		],
 		order: [ 0, 'asc' ],
 		keys: {
 			//columns: ':not(:first-child)',
-			columns: ':last-child',
+			//columns: ':last-child',
 			keys: [ 9 ], //9 means ^I
 			editor: editor,
 			editOnFocus: true
