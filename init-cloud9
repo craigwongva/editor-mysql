@@ -1,0 +1,17 @@
+# This is intended to be run once after the cloud9 instance starts.
+#
+# If you run it subsequently, do this:
+#  ps -ef | grep "node index"
+#  ps -ef | grep yacback
+# and kill the appropriate two processes.
+
+cd /home/ec2-user/environment/editor-mysql
+./upsert-route53
+./update-secgrp $1
+aws rds start-db-instance --db-instance-identifier editordb
+cd scotSpryMedia
+source ~/.nvm/nvm.sh
+nvm use 7
+npm start &
+cd /home/ec2-user/environment/editor-mysql
+./start-goserver $2

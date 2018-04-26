@@ -1,0 +1,10 @@
+TMP=/tmp/upsert
+EDITOR=/home/ec2-user/environment/editor-mysql
+
+myip=`curl http://169.254.169.254/latest/meta-data/public-ipv4` &> $TMP-1000
+
+cd $EDITOR
+
+echo "{\"Comment\":\"\",\"Changes\":[{\"Action\":\"UPSERT\",\"ResourceRecordSet\":{\"Name\":\"yacback.redf4rth.net\",\"Type\":\"A\",\"TTL\":300,\"ResourceRecords\":[{\"Value\":\"$myip\"}]}}]}" > upsert-route53.json.tmp 
+
+sudo -u ec2-user bash -c 'aws route53 change-resource-record-sets --hosted-zone-id Z14MX2BF8JTF7J --change-batch file://upsert-route53.json.tmp' > $TMP-1200

@@ -1,0 +1,7 @@
+cd /home/ec2-user/environment/greendots-golang/
+export GOROOT=/usr/local/go
+export GOPATH=/home/ec2-user/environment/greendots-golang/
+export PATH=$PATH:$GOROOT/bin
+go get yacback
+go install yacback
+./bin/yacback $1 &
