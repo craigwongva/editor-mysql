@@ -1,0 +1,8 @@
+TEMP_CLOUD9_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("cloud9"))) | .GroupId' | sed s/\"//g`
+
+BROWSER_IP=$1
+CLOUD9_IP=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
+aws ec2 authorize-security-group-ingress --group-id $TEMP_CLOUD9_SECGRP --cidr $BROWSER_IP/32 --port 8081 --protocol tcp --region us-west-2 
+aws ec2 authorize-security-group-ingress --group-id $TEMP_CLOUD9_SECGRP --cidr $BROWSER_IP/32 --port 8077 --protocol tcp --region us-west-2 
+aws ec2 authorize-security-group-ingress --group-id $TEMP_CLOUD9_SECGRP --cidr $CLOUD9_IP/32 --port 8077 --protocol tcp --region us-west-2
+#

@@ -30,7 +30,6 @@ var editor;
 
 $(document).ready(function() {
 
-	var mytoggle = 0;
 	var clickedRow;
 
 	editor = new $.fn.dataTable.Editor( {
@@ -81,29 +80,6 @@ $(document).ready(function() {
 			selector: 'td:first-child'
 		},
 		buttons: [
-			{ text: 'Same 10',
-				action: function ( e, dt, node, config ) {
-					//scramble re-orders the table rows,
-					// then calls /external to get the rows
-					$.ajax('http://yacback.redf4rth.net:8077/getSameTenRows', {
-						type: 'GET',
-						success: function(r) { 
-							dt.ajax.reload( function ( json ) {
-
-								dt.column( 2 ).visible( false );
-								mytoggle = 1;
-
-								$('#example tbody tr:first-child td:last-child').click();
-						});
-					},
-					error: function( ) { console.log('not successful calling :8077/getSameTenRows'); }
-					});
-					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-						var row = table.row( rowIdx );
-						row.deselect();
-					} );
-				}
-        		},
 			{ text: 'Any 10',
 				action: function ( e, dt, node, config ) {
 					//scramble re-orders the table rows,
@@ -122,17 +98,34 @@ $(document).ready(function() {
 						row.deselect();
 					} );
 				}
-        	},
+        		},
 			{ text: 'Toggle',
 				action: function ( e, dt, node, config ) {
-					if (mytoggle % 2 == 0) {
-						dt.column( 2 ).visible( false );
-					} else {
-                		dt.column( 2 ).visible( true );
-					}
-					mytoggle = mytoggle + 1;
-            	}
-        	},
+					dt.column(2).visible( !dt.column(2).visible() )
+            			}
+        		},
+			{ text: 'Same 10',
+				action: function ( e, dt, node, config ) {
+					//scramble re-orders the table rows,
+					// then calls /external to get the rows
+					$.ajax('http://yacback.redf4rth.net:8077/getSameTenRows', {
+						type: 'GET',
+						success: function(r) { 
+							dt.ajax.reload( function ( json ) {
+
+								dt.column( 2 ).visible( false );
+
+								$('#example tbody tr:first-child td:last-child').click();
+							});
+						},
+						error: function( ) { console.log('not successful calling :8077/getSameTenRows'); }
+					});
+					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+						var row = table.row( rowIdx );
+						row.deselect();
+					} );
+				}
+        		},
 			{ text: 'Compare',
 				action: function ( e, dt, node, config ) {
 					dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
@@ -145,10 +138,9 @@ $(document).ready(function() {
 							row.select();
 						}
 					});
-								dt.column( 2 ).visible( true );
-								mytoggle = 0;					
-            	}
-        	}
+					dt.column( 2 ).visible( true );
+            			}
+        		}
 		]
 	} );
 
