@@ -47,6 +47,6 @@ END //
 DROP PROCEDURE IF EXISTS heatAndScrambleSameTenRows//
 CREATE PROCEDURE heatAndScrambleSameTenRows()
 BEGIN
-        UPDATE serversideyacback SET rn = rand(), me = '' WHERE hot = true;
+        UPDATE serversideyacback SET rn = rand(), me = '' WHERE id IN (SELECT id FROM hotserverside);
 END //
 DELIMITER ;
