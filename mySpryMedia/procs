@@ -20,7 +20,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS heatAndScrambleAnyTenRows//
 CREATE PROCEDURE heatAndScrambleAnyTenRows()
 BEGIN
-        UPDATE serversideyacback SET rn = rand();
+        UPDATE serversideyacback SET rn = rand(), me = '';
         TRUNCATE TABLE hotserverside;
 	TRUNCATE TABLE temp1;
 	-- These are the top five most missed words:
