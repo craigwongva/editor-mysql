@@ -1,22 +1,47 @@
---The hotserverside table is necessary because MySQL doesn't yet support:
---UPDATE serversideyacback SET hot = true
---WHERE id in (
--- SELECT id
--- FROM serversideyacback
--- ORDER BY rn
--- LIIT 10);
---ERROR 1235 (42000): This version of MySQL doesn't yet support 'LIMIT &
--- IN/ALL/ANY/SOME subquery'
+-- The hotserverside table is necessary because MySQL doesn't yet support:
+-- UPDATE serversideyacback SET hot = true
+-- WHERE id in (
+--  SELECT id
+--  FROM serversideyacback
+--  ORDER BY rn
+--  LIIT 10);
+-- ERROR 1235 (42000): This version of MySQL doesn't yet support 'LIMIT &
+--  IN/ALL/ANY/SOME subquery'
+
+-- I don't know where the create code is (i.e. run it the first time the editordb
+--  is created). The following should be included there:
+-- create table temp1 (id int); create table temp2 (id int); create table temp3 (id int);
+
+
+
 
 DELIMITER //
+
 DROP PROCEDURE IF EXISTS heatAndScrambleAnyTenRows//
 CREATE PROCEDURE heatAndScrambleAnyTenRows()
 BEGIN
         UPDATE serversideyacback SET rn = rand();
         TRUNCATE TABLE hotserverside;
-        INSERT INTO hotserverside SELECT id FROM serversideyacback ORDER BY rn LIMIT 10;
-        UPDATE serversideyacback SET hot = false;
-        UPDATE serversideyacback SET hot = true WHERE id IN (SELECT id FROM hotserverside);
+	TRUNCATE TABLE temp1;
+	-- These are the top five most missed words:
+	INSERT INTO temp1 SELECT id FROM serversideyacback WHERE correct/triggers <= 0.5 ORDER BY correct/triggers LIMIT 5;
+	TRUNCATE TABLE temp2;
+	-- These are random sentences:
+	INSERT INTO temp2 SELECT id FROM serversideyacback ORDER BY rn LIMIT 5;
+	TRUNCATE TABLE temp3;
+	INSERT INTO temp3 
+		SELECT id 
+		FROM serversideyacback 
+		-- Combine the missed phrases...
+		WHERE id IN (
+			SELECT id
+			FROM temp1
+			UNION 
+			SELECT id
+			FROM temp2)
+		-- ...then arbitrarily scramble them by ordering by the third decimal digit.
+		ORDER BY floor(10*mod((100*mod(rn,1)),1));
+	INSERT INTO hotserverside SELECT id FROM temp3;
 END //
 
 DROP PROCEDURE IF EXISTS heatAndScrambleSameTenRows//
