@@ -33,7 +33,7 @@ $(document).ready(function() {
 	var clickedRow;
 
 	editor = new $.fn.dataTable.Editor( {
-                ajax: {
+        ajax: {
 			url: "http://yacback.redf4rth.net:8077/editor",
 			type: "POST"
 		},
@@ -54,17 +54,17 @@ $(document).ready(function() {
 
 	var table = $('#example').DataTable( {
 		dom: "Bfrtip",
-                ajax: {
+        ajax: {
 			url: "http://yacback.redf4rth.net:8077/datatable",
 			type: "POST",
 		},
-	        serverSide: true,
+	    serverSide: true,
 		pagingType: "simple", //Hides next and previous page absolute page numbers
 		info: false,
 		columns: [
 			{ data: "rn" , "visible": false },
 			{ data: "en" },
-			{ data: "es" },
+			{ data: "es", "visible": false },
 			{ data: "me" },
 		],
 		order: [ 0, 'asc' ],
@@ -87,6 +87,7 @@ $(document).ready(function() {
 						success: function(r) { 
 							dt.ajax.reload( function ( json ) {
 								$('#example tbody tr:first-child td:last-child').click();
+								dt.column( 2 ).visible( false );								
 							});
 						},
 						error: function( ) { console.log('not successful calling :8077/getAnyTenRows'); }
@@ -108,10 +109,8 @@ $(document).ready(function() {
 						type: 'GET',
 						success: function(r) { 
 							dt.ajax.reload( function ( json ) {
-
 								$('#example tbody tr:first-child td:last-child').click();
 								dt.column( 2 ).visible( false );
-								
 							});
 						},
 						error: function( ) { console.log('not successful calling :8077/getSameTenRows'); }
