@@ -41,3 +41,8 @@ node index.js
 http://yacback.redf4rth.net:8081/inline-editing/serverside.html
 http://yacback.redf4rth.net:8081/inline-editing/mytab.html
 http://yacback.redf4rth.net:8081/inline-editing/yacback.html
+
+aws rds describe-db-instances --db-instance-identifier editordb | jq '.DBInstances[0].DBInstanceStatus' | sed s/\"//g
+
+mysql editordb --host=`aws rds describe-db-instances --db-instance-identifier editordb | jq '.DBInstances[0].Endpoint.Address' | sed -e "s/\"//g"` --user=editoruser --password=REDACTED
+
