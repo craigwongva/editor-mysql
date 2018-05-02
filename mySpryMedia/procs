@@ -23,8 +23,14 @@ BEGIN
         UPDATE serversideyacback SET rn = rand(), me = '';
         TRUNCATE TABLE hotserverside;
 	TRUNCATE TABLE temp1;
-	-- These are the top five most missed words:
-	INSERT INTO temp1 SELECT id FROM serversideyacback WHERE correct/triggers <= 0.5 ORDER BY correct/triggers LIMIT 5;
+	-- These are the top five most missed words, or unpracticed words:
+	INSERT INTO temp1
+		SELECT id
+		FROM serversideyacback
+		WHERE correct/triggers <= 0.5
+		OR correct = 0
+		ORDER BY correct/triggers
+		LIMIT 5;
 	TRUNCATE TABLE temp2;
 	-- These are random sentences:
 	INSERT INTO temp2 SELECT id FROM serversideyacback ORDER BY rn LIMIT 5;
