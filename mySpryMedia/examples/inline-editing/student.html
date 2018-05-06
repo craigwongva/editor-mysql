@@ -147,6 +147,9 @@ $(document).ready(function() {
 	} );
 
 	table.on( 'key-blur', function( e, datatable, cell, originalEvent ) {
+		//https://medium.com/@ericschwartz7/adding-audio-to-your-app-with-jquery-fa96b99dfa97		
+		$('audio#pop')[1].play()
+		
 		var row = datatable.row( cell.index().row )
 		var i = 0;
 		datatable.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
@@ -164,8 +167,6 @@ $(document).ready(function() {
 		}
 		$('#example tbody tr:nth-child(' + clickedRowPlusOne + ') td:last-child').click();
 	});
-
-
 });
 
 	</script>
@@ -178,5 +179,11 @@ $(document).ready(function() {
 
 		</section>
 	</div>
+<audio id="pop">
+  <source src="todamedida.mp3" type="audio/mpeg">
+</audio>
+<audio id="pop">
+  <source src="snowsurprise.mp3" type="audio/mpeg">
+</audio>  
 </body>
 </html>
