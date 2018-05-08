@@ -14,4 +14,4 @@ source ~/.nvm/nvm.sh
 nvm use 7
 npm start &
 cd /home/ec2-user/environment/editor-mysql
-./start-goserver $2
+./start-goserver $2 $3
