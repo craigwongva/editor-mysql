@@ -135,22 +135,7 @@ $(document).ready(function() {
 					});
 					dt.column( 2 ).visible( true );
             	}
-        	},
-			{ text: 'Sound',
-				action: function ( e, dt, node, config ) {
-					//succeeds: new Audio('http://yacback.redf4rth.net:8077/static/img/result.mp3').play()					
-					//succeeds: $.ajax('http://yacback.redf4rth.net:8077/static/img/wolf.jpeg', {
-					//succeeds:
-					$.ajax('http://yacback.redf4rth.net:8077/static/img/result.mp3', {						
-						type: 'GET',
-						success: function(r) {
-							console.log("Sound successfully called 2")
-							//console.log(r)
-						},
-						error: function( ) { console.log('not successful calling :8077/sound'); }
-					});
-            	}
-			}
+        	}
 		]
 	} );
 
@@ -162,11 +147,7 @@ $(document).ready(function() {
 	} );
 
 	table.on( 'key-blur', function( e, datatable, cell, originalEvent ) {
-		//https://medium.com/@ericschwartz7/adding-audio-to-your-app-with-jquery-fa96b99dfa97		
-		//succeeds: $('audio#pop')[1].play()
-
 		var es
-		
 		var row = datatable.row( cell.index().row )
 		var i = 0;
 		datatable.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
@@ -174,7 +155,6 @@ $(document).ready(function() {
 			var row2 = datatable.row( rowIdx );
 			var d = this.data();
 			if ( d.rn == row.data().rn ) {
-				//console.log(d.rn) //someday use d.id to know which audio to play
 				es = d.es
 				clickedRow = i
 			}
@@ -184,10 +164,10 @@ $(document).ready(function() {
 		// Failed to load because no supported source was found."
 		// seems to only occur when the file name (an md5 hash) is longer than 30 characters.
 		// The md5 hash is 32 characters.
+		
 		var hash = md5(es).slice(0, -2);
-		console.log(es)
-		console.log(hash)
-		//new Audio('http://yacback.redf4rth.net:8077/static/img/a674e3e0424bd5953e6c9cc07f8252.mp3').play()
+		//console.log(es)
+		//console.log(hash)
 		new Audio('http://yacback.redf4rth.net:8077/static/img/' + hash + '.mp3').play()
 	
 		clickedRowPlusOne = clickedRow + 1;
@@ -209,12 +189,5 @@ $(document).ready(function() {
 
 		</section>
 	</div>
-<audio id="pop">
-  <!-- abc.mp3 would live in same dir as this html -->
-  <source src="todamedida.mp3" type="audio/mpeg">
-</audio>
-<audio id="pop">
-  <source src="snowsurprise.mp3" type="audio/mpeg">
-</audio>  
 </body>
 </html>
