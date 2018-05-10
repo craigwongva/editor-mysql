@@ -42,11 +42,14 @@ cd ~/editor-mysql/scotSpryMedia
 node index.js
 ```
 
+I don't know what this is:
 ```
-http://yacback.redf4rth.net:8081/inline-editing/serverside.html
 http://yacback.redf4rth.net:8081/inline-editing/mytab.html
+```
 
+```
 http://yacback.redf4rth.net:8081/inline-editing/student.html
+http://yacback.redf4rth.net:8081/inline-editing/admin.html
 ```
 
 ```
@@ -60,4 +63,21 @@ mysql editordb \
     --host=`aws rds describe-db-instances --db-instance-identifier editordb | \
     jq '.DBInstances[0].Endpoint.Address' | sed -e "s/\"//g"` \
     --user=editoruser --password=REDACTED
+```
+
+```
+cd editor-mysql
+./init-cloud9 <browser IP address> <editordb password> <AWS password for Polly>
+```
+
+If you are updating the Go, then kill the existing Go process, and re-run as follows:
+```
+ps -ef | grep yacback
+#-->Kill the yacback job.
+cd greendots-golang
+export GOROOT=/usr/local/go
+export GOPATH=/home/ec2-user/environment/greendots-golang
+export PATH=$PATH:$GOROOT/bin
+go install yacback
+./bin/yacback <editordb password>
 ```
