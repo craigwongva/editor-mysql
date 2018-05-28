@@ -14,26 +14,29 @@ greendots-golang:
 editor-mysql:
   Be sure to use the same dbpassword in the next two CF commands:
 
-What's `cf.yml`?
 ```
+# Create editordb in RDS.
 aws cloudformation create-stack --stack-name editordb --template-body file://cf.yml \
     --region us-west-2 --parameter ParameterKey=dbusername,ParameterValue=editoruser \       
     ParameterKey=dbpassword,ParameterValue=REDACTED
 ```
 
 ```
+# Create yacback (both Datatables/Express and supporting Golang).
 aws cloudformation create-stack --stack-name editor-EC2 --template-body file://df.yml \
     --region us-west-2 --capabilities CAPABILITY_NAMED_IAM \
     --parameter ParameterKey=IP22,ParameterValue=`curl 169.254.169.254/latest/meta-data/public-ipv4` \      
     ParameterKey=dbendpoint,ParameterValue=`aws cloudformation describe-stacks --stack-name editordb --region us-west-2 | jq '.Stacks[].Outputs[0].OutputValue' | sed s/\"//g` \
-    ParameterKey=IP8081,ParameterValue=REDACTED ParameterKey=dbpassword,ParameterValue=REDACTED
+    ParameterKey=IP8081,ParameterValue=REDACTED ParameterKey=dbpassword,ParameterValue=REDACTED \
+    ParameterKey=githubpassword,ParameterValue=REDACTED
 ```
+The above stack creation succeeds without intervention, i.e. its student.html connects with the :8077 server accessing the mysql database.
 
-  Inside mysql's interpreter if you're debugging or about to create a new EC2 stack:
-```
-use innodb;
-drop database editordb;
-```
+To check:
+* ssh in
+* `ps -ef | grep "node index.js"`
+* `ps -ef | grep yacback`
+
 
   To run manually:
 
