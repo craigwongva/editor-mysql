@@ -48,6 +48,8 @@ cp mySpryMedia/controllers/*.js                  scotSpryMedia/controllers/
 cp mySpryMedia/examples/simple/*.html            scotSpryMedia/examples/simple/
 cp mySpryMedia/examples/inline-editing/*.html    scotSpryMedia/examples/inline-editing/
 cp mySpryMedia/examples/inline-editing/yacback.css    scotSpryMedia/examples/inline-editing/
+cp mySpryMedia/examples/inline-editing/admin.css    scotSpryMedia/examples/inline-editing/
+cp mySpryMedia/examples/inline-editing/md5.js    scotSpryMedia/examples/inline-editing/
 
 cd scotSpryMedia
 npm start &
