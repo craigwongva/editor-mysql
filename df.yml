@@ -8,6 +8,8 @@ Parameters:
     Type: String
   dbpassword:
     Type: String
+  githubpassword:
+    Type: String
 Resources:
   TomcatInstanceRole:
     Type: AWS::IAM::Role
@@ -112,6 +114,9 @@ Resources:
             -
               - "#!/bin/bash -ex\n"
               - "yum install git -y\n"
+              - "sudo -u ec2-user bash -c 'cd /home/ec2-user; git clone -b mysql https://craigwongva:"
+              - !Ref githubpassword
+              - "@github.com/craigwongva/greendots-golang'\n"
               - "sudo -u ec2-user bash -c 'cd /home/ec2-user; git clone https://github.com/craigwongva/editor-mysql'\n"
               - "sudo -u ec2-user bash -c 'cd /home/ec2-user/editor-mysql; ./userdata "
               - !Ref dbendpoint

@@ -57,8 +57,7 @@ npm start &
 cd ~
 #Write dbpassword for greendots-golang :8077's use
 echo $2 > ~/dbpassword
-git clone -b mysql https://github.com/craigwongva/greendots-golang
-cd greendots-golang
+cd ~/greendots-golang
 ./userdata/install
 
 #http://yacback.redf4rth.net:8077/external
