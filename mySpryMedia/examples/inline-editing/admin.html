@@ -61,7 +61,11 @@ $(document).ready(function() {
 	var table = $('#example').DataTable( {
 
 		dom: "Bfrtip",
-		ajax: "/snapi/yacback",
+		//ajax: "/snapi/yacback", //A1
+        ajax: {
+			url: "http://yacback.redf4rth.net:8077/datatableForAdminDotHtml",
+			type: "POST",
+		},		
 		pagingType: "simple",
 		pageLength: 15,
 		info: false,
@@ -89,6 +93,21 @@ $(document).ready(function() {
 			{ extend: "remove", editor: editor }
 		]
 	} );
+	
+	table.on( 'draw', function () {
+		console.log("draw!")
+		var i = 0;
+		table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+			i++;
+			//var row2 = datatable.row( rowIdx );
+			//var d = this.data();
+			//if ( d.rn == row.data().rn ) {
+			//	es = d.es
+			//	clickedRow = i
+			//}
+		})
+		console.log(i)
+	} );	
 } );
 
 	</script>
