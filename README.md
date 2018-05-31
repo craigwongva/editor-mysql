@@ -84,3 +84,6 @@ export PATH=$PATH:$GOROOT/bin
 go install yacback
 ./bin/yacback <editordb password>
 ```
+
+http://yacback.redf4rth.net:8077/static/img/student.html
+http://yacback.redf4rth.net:8077/static/img/admin.html
